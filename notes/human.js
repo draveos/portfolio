@@ -49,7 +49,6 @@
         id: 'open', title: '직접 열어 보기',
         html: '<p>다섯 작품을 그대로 옮겨 두었습니다. 새 창으로 열리고, 글꼴 외에는 외부 의존이 없습니다.</p>'
           + '<p class="link-row"><a href="demo/vfx/sontae/main.html" target="_blank" rel="noreferrer">손때 (Fable 5.1, 서브에이전트 14) ↗</a> <a href="demo/vfx/codex/main.html" target="_blank" rel="noreferrer">Codex (GPT 6.1 Astra) ↗</a> <a href="demo/vfx/claude/main.html" target="_blank" rel="noreferrer">Fable 5.1 단독 ↗</a> <a href="demo/vfx/office/main.html" target="_blank" rel="noreferrer">Agent Office (Fable 5.1 세션) ↗</a> <a href="demo/vfx/gemini/index.html" target="_blank" rel="noreferrer">Gemini 3.1 Pro ↗</a></p>'
-          + demoBlock({ src: 'demo/vfx/sontae/main.html', poster: 'media/human/sontae_cover.jpg', title: '손때', caption: '손때를 여기서 바로 볼 수 있습니다. 커서를 움직이면 벽에 자국이 남고, 스크롤하면 아침이 넘어갑니다.', height: 520 })
       },
       {
         id: 'why', title: '손때는 왜 높았나',
