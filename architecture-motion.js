@@ -4,8 +4,12 @@ export function drawArchitecture(c,w,h,t,alpha){
   const clamp=v=>Math.max(0,Math.min(1,v));
   const ease=v=>{v=clamp(v);return v*v*(3-2*v);};
   const progress=(start,duration)=>ease((t-start)/duration);
-  const scale=Math.min(w/500,h/335);
-  c.save();c.translate(w/2,h/2-8);c.scale(scale,scale);c.globalAlpha=alpha;
+  // Fit the actual drawing bounds, including text descent and stroke glow.
+  // Centering the origin alone clipped the footer on short/wide viewports.
+  const bounds={left:-252,right:252,top:-148,bottom:184},padding=12;
+  const scale=Math.max(.01,Math.min((w-padding*2)/(bounds.right-bounds.left),(h-padding*2)/(bounds.bottom-bounds.top)));
+  const centerY=(bounds.top+bounds.bottom)/2;
+  c.save();c.translate(w/2,h/2-centerY*scale);c.scale(scale,scale);c.globalAlpha=alpha;
   const ink='#5c6d85',blue='#617da6',red='#a45f50',green='#4f8062';
   const approved=progress(14.1,.7);
   const returnColor=`rgb(${Math.round(164+(79-164)*approved)},${Math.round(95+(128-95)*approved)},${Math.round(80+(98-80)*approved)})`;

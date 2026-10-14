@@ -7,4 +7,4 @@
 #assembly-state{display:none!important}
 
 /* The architecture uses the whole hero viewport, including the former bottom gap. */
-#hero-scene:has(canvas.brand-motion) { bottom:28px; }
+#hero-scene:has(canvas.brand-motion) { bottom:46px; }

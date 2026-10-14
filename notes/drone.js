@@ -1,7 +1,7 @@
 /* 노트: 드론 자율주행. 이 파일만 고치면 됩니다. 계약은 notes/README.md 참고.
    회사 내부 정보는 쓰지 않습니다(work/dossier_handoff_web.md 의 SAFE 재료, 경력증명서 문구, 2026-10-14 01:00 보강 결정만).
    측정 수치(Hz, GPU), 센서 구성, 계획기 종류, 상태 이름, 운영 UI 구성은 어느 층에도 쓰지 않습니다.
-   비행 체험은 blog/demo/drone/ (drone_world_tour 사본, ion 토큰 없음, 파리 시작).
+   비행 체험 데모는 글에서 뺐습니다(2026-10-14 사용자 결정). 사본은 blog/demo/drone/ 에만 남아 있고 배포본에는 넣지 않습니다.
    2026-10-14 마무리: 회사 확인 전 초안 메모와 온보딩, 토큰 todo 문장을 뺐습니다. 2층 섹션(구조, 막힌 곳)은 회사 확인 전이라 collapsed 유지. */
 (function () {
   const K = window.FIGKIT, C = K.C;
@@ -50,10 +50,7 @@
     return s + K.close();
   }
 
-  const DEMO_SRC = 'demo/drone/index.html';
-  // 라이브 사이트 https://draveos.github.io/drone_world_tour 는 main.js 에 Cesium ion 토큰이 남아 있어(2026-10-14 curl 확인)
-  // 토큰 재발급과 재배포 전까지 links 와 evidence 에서 뺐습니다. 재배포 뒤 live 링크와 {label:'코드 보기', kind:'code'} 를 되돌립니다.
-  const DEMO_POSTER = 'media/drone/poster.jpg';
+  // 외부 데모 링크 없음(2026-10-14).
 
   window.NOTES.push({
     id: 'drone',
@@ -66,12 +63,6 @@
     tools: ['Isaac Sim', 'ROS 2', 'Pegasus', 'CesiumJS'],
     tag: '드론 자율주행',
     hero: { src: 'media/drone/cover_voxel.jpg', alt: '블록 도시 위를 초록 경로로 장애물을 피해 나는 복셀 드론 장면(생성 이미지)', caption: '웨이포인트를 받아 복셀 지도에서 장애물을 피해 가는 흐름을 그린 생성 이미지입니다.' },
-    shots: [
-      { src: DEMO_POSTER, alt: 'CesiumJS 비행 체험 화면, 파리 상공을 선회하는 드론', caption: 'CesiumJS 비행 데모의 한 장면. 파리 상공을 선회하는 드론입니다.' }
-    ],
-    links: [
-      { label: 'Drone Cesium Demo', href: 'https://draveos.github.io/drone_world_tour/', kind: 'live' }
-    ],
     meta: { period: '2026.05–08 (인턴 2026.03–08)', role: '설계, 구현, 운영, 인계', members: '1인', contribution: '100%' },
     points: {
       shows: '관측, 복셀 지도 생성, 경로 계획, 제어를 하나의 비행 파이프라인으로 연결했습니다.',
@@ -82,15 +73,12 @@
       '<b class="num">8주</b> 개인 과제, 관측에서 제어까지 폐루프 미션 실행',
       '가이드 <b class="num">7장</b>, 참고 <b class="num">5편</b>으로 운영 문서를 구성',
       '지도 포화는 감쇠로 완화, 문제 <b class="num">3</b>가지를 원인과 함께 문서화',
-      '인계 문서 <b class="num">36단계</b> 체크리스트, 외부 의존성 <b class="num">0</b>의 단일 HTML',
-      'CesiumJS 비행 체험, 공개 랜드마크 <b class="num">7곳</b>, 회사 자산 <b class="num">0</b>'
+      '인계 문서 <b class="num">36단계</b> 체크리스트, 외부 의존성 <b class="num">0</b>의 단일 HTML'
     ],
     sections: [
       { id: 'role', title: '맡은 일과 순서', html: `<p>인턴 기간의 담당 업무는 경력증명서 문구 그대로 "Isaac Sim을 활용한 드론 자율주행 시뮬레이션 구현 및 학습용 데이터 수집"이었습니다. 공개 도구인 Isaac Sim, Pegasus, ROS 2, Cesium 위에서 혼자 파이프라인을 만들고 돌렸습니다.</p><p>먼저 실내 자율 회피 과제를 8주간 맡아 관측에서 지도, 계획, 제어로 이어지는 폐루프 베이스라인을 구현했습니다. 그 뒤 회사 우선순위에 따라 학습용 데이터 수집 쪽으로 옮겨, 웹 UI에서 데이터 수집 작업을 관리하는 파이프라인을 개발하고 운영한 뒤 후임에게 인계했습니다.</p>${fig(conceptDrawing(), '웨이포인트를 받아 복셀 지도를 만들고, 그 위에서 회피 경로를 찾는 개념도입니다.', 'background:#edf4f0')}` },
-      { id: 'structure', title: '구조 한눈에', collapsed: true, html: `<p>웨이포인트를 주면 3D 공간을 복셀 격자로 바꿔 장애물을 피해 가게 했습니다. 관측이 지도에 쌓이고, 지도 위에서 경로를 찾고, 이동한 뒤 다시 관측하는 폐루프입니다.</p>${fig(droneDrawing(), '웨이포인트, 복셀 지도, 회피 경로의 관계를 그린 개념 수준의 그림입니다.', 'background:#edf4f0')}` },
-      { id: 'problems', title: '실행 중 생긴 문제와 대응', collapsed: true, html: `<h3>지도가 지나치게 채워진 문제</h3><p>관측이 쌓이면서 지도의 대부분이 점유로 바뀌어 경로를 찾지 못했습니다. 오래된 관측의 점유 확률을 서서히 낮추는 감쇠를 넣어 일부 완화했습니다. 동작 구간이 좁아 이 구현과 실험 조건에서의 한계로 문서에 남겼습니다.</p><h3>글로만 주고받은 작업 조건</h3><p>요청받은 기준이 실제 결과와 어긋났습니다. 이후에는 작은 샘플을 먼저 만들어 보여 주고, 결과를 함께 보며 조건을 맞췄습니다.</p><h3>시뮬레이터의 건물 충돌</h3><p>Cesium for Omniverse 의 타일은 렌더 전용 경로(FSD)로 그려져 물리 충돌이 적용되지 않습니다. 재현 영상과 자료로 원인을 정리해 공유하고, 렌더링과 물리 충돌 처리를 분리했습니다.</p>` },
+      { id: 'problems', title: '실행 중 생긴 문제와 대응', html: `<h3>지도가 지나치게 채워진 문제</h3><p>관측이 쌓이면서 지도의 대부분이 점유로 바뀌어 경로를 찾지 못했습니다. 오래된 관측의 점유 확률을 서서히 낮추는 감쇠를 넣어 일부 완화했습니다. 동작 구간이 좁아 이 구현과 실험 조건에서의 한계로 문서에 남겼습니다.</p><h3>글로만 주고받은 작업 조건</h3><p>요청받은 기준이 실제 결과와 어긋났습니다. 이후에는 작은 샘플을 먼저 만들어 보여 주고, 결과를 함께 보며 조건을 맞췄습니다.</p><h3>시뮬레이터의 건물 충돌</h3><p>Cesium for Omniverse 의 타일은 렌더 전용 경로(FSD)로 그려져 물리 충돌이 적용되지 않습니다. 재현 영상과 자료로 원인을 정리해 공유하고, 렌더링과 물리 충돌 처리를 분리했습니다.</p>` },
       { id: 'handoff', title: '인계 방식', html: `<p>후임이 환경 설정과 운영 절차를 따라갈 수 있도록 단일 HTML 매뉴얼을 만들었습니다. 외부 의존성이 없어 파일을 더블클릭하면 열립니다.</p><table><thead><tr><th>장치</th><th>내용</th></tr></thead><tbody><tr><td>체크리스트</td><td>36단계, 장별과 전체 진행률이 브라우저에 남습니다</td></tr><tr><td>검색</td><td>장, 단계, 소제목, 표 행을 한 번에 찾습니다</td></tr><tr><td>증상 필터</td><td>트러블슈팅 16항목을 증상별로 찾습니다</td></tr><tr><td>금지 목록</td><td>운영 중 확인한 주의사항 5개를 따로 정리했습니다</td></tr><tr><td>용어</td><td>25개 풀이</td></tr><tr><td>위젯</td><td>터미널 타이핑과 클릭해 넘기는 화면 예시</td></tr></tbody></table><p>구성은 시작 페이지 하나, 가이드 7장, 참고 5편이고 전체 141 KB 입니다. 이 매뉴얼로 5일 온보딩을 직접 진행했고, 후임이 혼자 운영할 수 있는 상태로 인계를 마쳤습니다.</p>` },
-      { id: 'demo', title: '비행 체험', html: `<p>Isaac Sim 에서 드론을 다뤄 본 경험을 웹으로 옮겨 봤습니다. 공개 랜드마크 7곳을 선회하고 대권 경로로 옮겨 가는 드론을 CesiumJS 로 그렸고, 궤적은 코드가 생성한 합성 데이터입니다. 아래는 짧은 미리보기이고, 3D 건물과 카메라 모드까지 있는 전체 데모는 위의 Drone Cesium Demo 버튼으로 열립니다.</p>${demoBlock({ src: DEMO_SRC, poster: DEMO_POSTER, title: 'CesiumJS 드론 비행 체험', caption: '합성 궤적과 공개 랜드마크 좌표로 만든 미리보기입니다. 인터넷이 필요합니다(CDN).', note: '재생을 누르면 파리 상공에서 비행이 시작됩니다. 오른쪽 위에서 카메라(CINE, CHASE)와 배속을 바꿀 수 있습니다.' })}<p>빌드 도구 없이 HTML, JS, CSS 파일 세 개로 만들었습니다. 좌표계 변환, 대권 보간, 시간 샘플 궤적, 카메라 제어를 직접 짰습니다.</p>` }
     ],
     gaps: '지도 포화는 감쇠로 일부만 완화됐고, 조건을 바꿔 가며 경로 성공률을 측정하는 실험은 하지 못했습니다. 인계 뒤 온보딩이 어떻게 진행됐는지는 확인하지 못했습니다. 다음 실험에서는 조건별 경로 성공률을 반복 측정할 계획입니다.',
     thumb: { src: 'media/drone/cover_voxel.jpg', alt: '드론 자율주행 복셀 장면(생성 이미지)' }

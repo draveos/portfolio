@@ -1,5 +1,5 @@
 import { drawBrandScene } from './brand-scenes.js?v=20261014-motion11';
-import { drawArchitecture } from './architecture-motion.js?v=20261014-motion10';
+import { drawArchitecture } from './architecture-motion.js?v=20261014-motion12';
 // Original canvas motion studies. No videos, raster assets or remote dependencies.
 export function createBrandMotion(host){
   const canvas=document.createElement('canvas');canvas.className='brand-motion';canvas.setAttribute('aria-hidden','true');host.append(canvas);

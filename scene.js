@@ -1,5 +1,5 @@
 import * as THREE from './vendor/three.module.js';
-import { createBrandMotion } from './brand-motion.js?v=20261014-motion11';
+import { createBrandMotion } from './brand-motion.js?v=20261014-motion12';
 
 // Three original exploded assemblies. All parts, stars and rays are geometry.
 // The attraction is a timed, damped motion study, not a rigid-body simulation.
