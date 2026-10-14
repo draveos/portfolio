@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>wall-test</title>
+<style>
+  html,body{margin:0;height:100%;background:#2b2d30;overflow:hidden}
+  #wall{position:fixed;inset:0;width:100vw;height:100vh;display:block}
+  #ui{position:fixed;left:12px;top:12px;font:12px/1.4 monospace;color:#999;z-index:2}
+  #ui button{font:12px monospace;margin:0 4px 4px 0;padding:3px 8px;background:#222;color:#ccc;border:1px solid #555;cursor:pointer}
+  #info{margin-top:6px;white-space:pre}
+</style>
+</head>
+<body>
+<canvas id="wall"></canvas>
+<div id="ui">
+  <button data-s="s0_first">s0</button><button data-s="s1_light">s1</button><button data-s="s2_touch">s2</button>
+  <button data-s="s3_repeat">s3</button><button data-s="s4_fork">s4</button><button data-s="endA">A</button><button data-s="endB">B</button>
+  <button id="anim">anim</button>
+  <div id="info"></div>
+</div>
+<script src="../wall.js"></script>
+<script>
+(function(){
+  var q = new URLSearchParams(location.search);
+  var cv = document.getElementById('wall');
+  var mode = Wall.init(cv);
+
+  // 시험용 맵 (화면 1/2 해상도)
+  var tw = 720, th = 450;
+  var touch = document.createElement('canvas'); touch.width = tw; touch.height = th;
+  var bleach = document.createElement('canvas'); bleach.width = tw; bleach.height = th;
+  var tc = touch.getContext('2d'), bc = bleach.getContext('2d');
+  tc.fillStyle = '#000'; tc.fillRect(0,0,tw,th);
+  bc.fillStyle = '#000'; bc.fillRect(0,0,tw,th);
+
+  function dab(ctx, x, y, r, a){
+    var g = ctx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0,'rgba(255,255,255,'+a+')'); g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle = g; ctx.fillRect(x-r,y-r,r*2,r*2);
+  }
+  function drawTouch(){
+    // 스위치 자리 둘레에 문지른 자국
+    for (var i=0;i<260;i++){ var ang=i*0.37, rr=12+Math.random()*34; dab(tc, 0.30*tw+Math.cos(ang)*rr, 0.40*th+Math.sin(ang)*rr*0.8, 9, 0.06); }
+    // 커서가 지나간 궤적 몇 개
+    var paths=[[0.12,0.75,0.62,0.68],[0.2,0.3,0.5,0.55],[0.55,0.2,0.9,0.5],[0.4,0.85,0.8,0.8]];
+    paths.forEach(function(p){ for(var k=0;k<=120;k++){ var u=k/120; dab(tc,(p[0]+(p[2]-p[0])*u)*tw+Math.sin(u*9)*8,(p[1]+(p[3]-p[1])*u)*th+Math.cos(u*7)*6,9,0.05);} });
+    // 갈림 문장 아래 깊은 손때
+    for (var j=0;j<300;j++) dab(tc, 0.07*tw+Math.random()*0.22*tw, 0.74*th+Math.random()*0.03*th, 9, 0.08);
+  }
+  function drawBleach(){
+    [[0.35,0.3],[0.62,0.22],[0.84,0.18]].forEach(function(b){
+      var x=b[0]*tw, w=0.24*tw, tilt=0.15*th;
+      bc.fillStyle='rgba(255,255,255,'+b[1]+')';
+      bc.beginPath(); bc.moveTo(x-w/2+tilt*0.5,0.08*th); bc.lineTo(x+w/2+tilt*0.5,0.08*th);
+      bc.lineTo(x+w/2-tilt*0.5,0.92*th); bc.lineTo(x-w/2-tilt*0.5,0.92*th); bc.closePath(); bc.fill();
+    });
+  }
+  if (q.get('maps') !== '0') { drawTouch(); drawBleach(); }
+  Wall.setMaps(touch, bleach);
+
+  var cur = q.get('s') || 's0_first';
+  var anim = q.get('anim') === '1';
+  function apply(name){ cur = name; Wall.set(Wall.presets[name]); if (q.get('fade')) Wall.set({fade:+q.get('fade')}); if (q.get('collapse')) Wall.set({collapse:+q.get('collapse')}); }
+  apply(cur);
+  document.querySelectorAll('#ui button[data-s]').forEach(function(b){ b.onclick=function(){ apply(b.dataset.s); }; });
+  document.getElementById('anim').onclick=function(){ anim=!anim; };
+
+  var endStart = 0;
+  document.querySelector('[data-s=endA]').onclick=function(){ apply('s4_fork'); endStart=performance.now(); cur='A'; };
+  document.querySelector('[data-s=endB]').onclick=function(){ apply('s4_fork'); endStart=performance.now(); cur='B'; };
+
+  window.addEventListener('pointermove', function(e){ Wall.set({mouse:{x:e.clientX/innerWidth, y:e.clientY/innerHeight}}); });
+
+  var frames=0, last=performance.now(), fps=0;
+  function tick(now){
+    requestAnimationFrame(tick);
+    frames++; if (now-last>1000){ fps=frames; frames=0; last=now; }
+    if (anim && cur.charAt(0)==='s' && cur!=='s4_fork'){ Wall.set({sunX: -0.35+1.7*((now/20000)%1)}); }
+    if (cur==='A'){ var f=Math.min(1,(now-endStart)/23000); Wall.set({fade:f, sunI:0.9*(1-Math.min(1,f*3)), light:0.6-0.57*Math.min(1,f*3)}); }
+    if (cur==='B'){ var c=Math.min(1,(now-endStart)/300); Wall.set({collapse:c}); }
+    document.getElementById('info').textContent = mode+'  '+fps+'fps  '+cur+'  '+cv.width+'x'+cv.height;
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

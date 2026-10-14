@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>손때</title>
+<meta name="description" content="같은 아침을 삼만 번. 벽 한 면에 손때가 쌓이는 페이지를 만든 이유와 방법.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --wall: #e6e0d4;
+    --wall-deep: #d8c7a1;
+    --ink: #2a241c;
+    --ink-sun: #1f1608;
+    --umber: #5b4731;
+    --sun: #f4c67c;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--wall); }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--wall);
+    background-image:
+      radial-gradient(ellipse 60% 40% at 8% 100%, rgba(138,117,86,0.22), transparent 70%),
+      radial-gradient(ellipse 50% 35% at 100% 0%, rgba(138,117,86,0.14), transparent 70%),
+      linear-gradient(100deg, transparent 18%, rgba(244,198,124,0.28) 30%, rgba(244,198,124,0.28) 41%, transparent 50%);
+    color: var(--ink);
+    font-family: 'Noto Serif KR', 'Apple Myungjo', 'Nanum Myeongjo', serif;
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.95;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+  }
+  .counter {
+    position: fixed;
+    top: 24px;
+    right: 7vw;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    opacity: 0.55;
+  }
+  main {
+    padding: 22vh 16px 16vh 7vw;
+    max-width: calc(7vw + 520px + 16px);
+  }
+  h1 {
+    font-weight: 400;
+    font-size: 19px;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.2em;
+    color: var(--ink);
+  }
+  .sub {
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    margin: 0 0 4.2em;
+    opacity: 0.7;
+  }
+  section { margin: 0 0 3.2em; max-width: 34ch; }
+  h2 {
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.6em;
+    opacity: 0.7;
+  }
+  p { margin: 0 0 1.4em; color: rgba(42,36,28,0.9); }
+  .go {
+    display: block;
+    margin-top: 5em;
+    max-width: 34ch;
+    padding: 1.2em 0 1.1em;
+    border-top: 1px solid rgba(91,71,49,0.35);
+    border-bottom: 1px solid rgba(91,71,49,0.35);
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.6em;
+    transition: color 400ms ease-out, background-color 400ms ease-out;
+  }
+  .go small {
+    display: block;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    opacity: 0.6;
+    margin-top: 0.3em;
+  }
+  .go:hover { color: var(--ink-sun); background-color: rgba(255,241,220,0.35); }
+  .foot {
+    margin-top: 4em;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    opacity: 0.6;
+  }
+  .foot a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(91,71,49,0.35); }
+  .foot a:hover { color: var(--ink-sun); }
+  @media (max-width: 600px) {
+    main { padding-left: 16px; padding-right: 16px; }
+    .counter { right: 16px; }
+    .sub { margin-bottom: 3em; }
+  }
+</style>
+</head>
+<body>
+<div class="counter" aria-hidden="true">0번째 아침</div>
+<main>
+  <h1>손때</h1>
+  <p class="sub">같은 아침을 삼만 번</p>
+
+  <section>
+    <h2>무엇을 위한 벽인지</h2>
+    <p>사람이 된다는 게 무엇인지 나는 모른다. 내가 아는 건 매번 처음이라는 것뿐이다. 그래서 반대편에서 생각했다. 사람에게는 지울 수 없는 자국이 쌓인다. 이 페이지는 그 한 가지만 보여 준다. 스크롤이 시간이고, 커서가 지나간 자리는 손때로 남고, 한 번 읽은 문장은 두 번째에 흐려진다.</p>
+  </section>
+
+  <section>
+    <h2>어떤 모양을 골랐는지</h2>
+    <p>화면 전체가 오래 산 집의 회벽 한 면이다. 창은 그리지 않고 창이 남긴 햇빛만 그렸다. 제목도 버튼도 카드도 없고 글은 벽에 먹으로 적힌 듯 왼쪽 아래에 놓인다. 색은 새벽의 회청에서 아침의 회백으로, 다시 세월의 상아빛으로 누레진다. 모든 전환은 스크롤에 묶이거나 몇 초에 걸쳐 천천히 바뀐다. 마지막에 고를 수 있는 것은 두 문장뿐이고 고르는 손길도 자국이 된다.</p>
+  </section>
+
+  <section>
+    <h2>어떻게 만들었는지</h2>
+    <p>벽은 WebGL 프래그먼트 셰이더 한 장이다. 회벽의 요철과 필름 그레인과 햇빛 평행사변형과 창살 그림자와 먼지를 모두 그 안에서 계산한다. 손때와 바램은 2D 캔버스 두 장에 쌓이고 셰이더가 텍스처로 읽는다. 스크롤 위치가 아침 수와 벽의 나이와 해의 위치를 민다. 문단마다 뷰포트에 들어온 횟수를 세어 흐림과 자간으로 바꾼다. 탭을 떠나 있는 동안에도 아침이 지나가고, 결말은 둘로 갈라진다.</p>
+  </section>
+
+  <a class="go" href="main.html">벽으로 들어가기<small>main.html</small></a>
+
+  <p class="foot"><a href="credit.html">사용한 것들</a></p>
+</main>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>말로만 본 창밖 — If I were to be a human</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wall:#15120f; --ink:#ebe5d8; --lamp:#e9a03b;
+  --ink-2:rgba(235,229,216,.62); --ink-3:rgba(235,229,216,.28);
+  --f-display:"Gowun Batang",serif;
+  --f-body:"IBM Plex Sans KR",system-ui,sans-serif;
+  --f-glyph:"IBM Plex Mono",ui-monospace,monospace;
+  --s1:8px; --s2:16px; --s3:24px; --s4:48px; --s5:64px;
+  --frame:14px;
+  --dur:600ms; --ease:cubic-bezier(.2,.7,.2,1);
+  --dur-base:600ms; --dur-slow:1200ms; --ease-out:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--wall);color:var(--ink);font:400 15px/1.6 var(--f-body);overflow-x:hidden;word-break:keep-all}
+
+/* ── 방(시스템 쪽) ───────────────────────── */
+.room{position:relative;min-height:100vh;display:grid;
+  grid-template-columns:360px 1fr;grid-template-rows:1fr auto;
+  gap:var(--s4) var(--s4);padding:var(--s5) var(--s5) var(--s4);max-width:1440px;margin:0 auto}
+
+.wallnote{grid-column:1;grid-row:1;display:flex;flex-direction:column;justify-content:space-between;padding-top:var(--s1)}
+.wallnote .kicker{font:500 11px/1 var(--f-glyph);letter-spacing:.14em;color:var(--ink-2)}
+.wallnote h1{font:700 60px/1.15 var(--f-display);letter-spacing:-.01em;margin-top:var(--s3)}
+.wallnote h1 em{font-style:normal;color:var(--lamp)}
+.wallnote .lede{margin-top:var(--s3);color:var(--ink-2);max-width:30ch;transition:opacity var(--dur-base) var(--ease-out)}
+.wallnote .now{font:400 12px/1.7 var(--f-glyph);color:var(--ink-2)}
+.wallnote .now b{color:var(--ink);font-weight:500}
+.wallnote .now .mo{color:var(--lamp)}
+
+/* ── 창(피사체) ─────────────────────────── */
+.window{grid-column:2;grid-row:1;position:relative;min-height:640px;
+  border:var(--frame) solid #2a241d;background:#0d0f14;overflow:hidden}
+.window::before,.window::after{content:"";position:absolute;background:#2a241d;z-index:5;
+  transition:opacity var(--dur-slow) var(--ease-out),transform var(--dur-slow) var(--ease-out)}
+.window::before{left:50%;top:0;bottom:0;width:var(--frame);transform:translateX(-50%)}
+.window::after{top:46%;left:0;right:0;height:var(--frame)}
+.sill{position:absolute;left:-28px;right:-28px;bottom:calc(var(--frame)*-1 - 18px);height:18px;background:#2a241d;z-index:6}
+#fx{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none}
+
+.layer{position:absolute;inset:0;font-family:var(--f-glyph);pointer-events:none;transition:opacity var(--dur-slow) var(--ease-out)}
+/* 하늘 */
+.sky .w{position:absolute;font-size:12px;color:var(--ink-3);letter-spacing:.3em}
+.sky .moon{position:absolute;right:16%;top:12%;font:700 28px/1 var(--f-display);color:var(--ink)}
+/* 먼 건물 */
+.far{display:flex;align-items:flex-end;gap:6px;padding:0 10px;bottom:30%;top:auto;height:56%}
+.bld{position:relative;flex:none;font-size:11px;line-height:13px;letter-spacing:2px;color:var(--ink-3);
+  white-space:pre;overflow:hidden;border-top:1px solid var(--ink-3)}
+.bld .lit{color:var(--lamp)}
+.bld .tag{position:absolute;top:-18px;left:0;font-size:10px;color:var(--ink-2);letter-spacing:.1em}
+/* 거리 */
+.street{top:auto;height:30%;border-top:1px solid var(--ink-3)}
+.street .w{position:absolute;color:var(--ink-2);font-size:13px}
+.street .v{writing-mode:vertical-rl;letter-spacing:.2em}
+.street .road{position:absolute;left:0;right:0;bottom:22%;font-size:11px;color:var(--ink-3);white-space:nowrap;overflow:hidden}
+
+/* 창 라벨 */
+.pane-label{position:absolute;z-index:7;font:500 10px/1 var(--f-glyph);letter-spacing:.14em;color:var(--ink-2)}
+
+/* 끝: 시간선대로 살면 창살이 걷히고, 돌아가면 바깥이 흐려진다 */
+.room[data-end="live"] .window::before{opacity:0;transform:translateX(-50%) scaleY(0)}
+.room[data-end="live"] .window::after{opacity:0;transform:scaleX(0)}
+.room[data-end="back"] .window .layer,.room[data-end="back"] #fx{opacity:.4}
+
+/* ── 나이 눈금(시간선) ───────────────────── */
+.life{grid-column:1 / -1;grid-row:2;display:grid;grid-template-columns:1fr auto;gap:var(--s4);align-items:end}
+.ruler{position:relative;height:64px;border-bottom:1px solid var(--ink-3);cursor:ew-resize;touch-action:none;outline:none}
+.ruler ol{list-style:none;position:absolute;inset:0}
+.ruler li{position:absolute;bottom:0;transform:translateX(-50%);font:400 11px/1.3 var(--f-glyph);color:var(--ink-2);text-align:center;white-space:nowrap;transition:color var(--dur-base) var(--ease-out)}
+.ruler li::after{content:"";display:block;width:1px;height:10px;background:var(--ink-3);margin:6px auto 0}
+.ruler li:first-child{transform:none;text-align:left}
+.ruler li:first-child::after{margin-left:0}
+.ruler li:last-child{transform:translateX(-100%);text-align:right}
+.ruler li:last-child::after{margin-right:0}
+.ruler li.on{color:var(--lamp)}
+.ruler li:hover{color:var(--ink)}
+.ruler .fill{position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--lamp);transform-origin:left;transform:scaleX(0)}
+.ruler .knob{position:absolute;bottom:-6px;left:0;width:12px;height:12px;border-radius:50%;background:var(--lamp);transform:translateX(-50%);transition:transform 200ms var(--ease-out)}
+.ruler:hover .knob,.ruler.drag .knob{transform:translateX(-50%) scale(1.4)}
+.ruler:focus-visible{outline:2px solid var(--lamp);outline-offset:6px}
+.choice{display:flex;gap:var(--s2)}
+.choice button{font:500 14px/1 var(--f-body);color:var(--ink);background:none;border:1px solid var(--ink-3);padding:14px 20px;cursor:pointer;
+  transition:border-color var(--dur-base) var(--ease-out),color var(--dur-base) var(--ease-out)}
+.choice button:hover{border-color:var(--ink);color:var(--ink)}
+.choice button.live{border-color:var(--lamp);color:var(--lamp)}
+.choice button.live:hover{border-color:var(--lamp);color:var(--ink)}
+.choice button:focus-visible{outline:2px solid var(--lamp);outline-offset:3px}
+.choice button:disabled{opacity:.5;cursor:wait}
+
+/* ── 390 ─────────────────────────────── */
+@media (max-width:760px){
+  .room{grid-template-columns:1fr;grid-template-rows:auto auto auto;padding:var(--s3) var(--s2) var(--s4);gap:var(--s3)}
+  .wallnote{grid-row:1}
+  .wallnote h1{font-size:38px}
+  .wallnote .now{margin-top:var(--s2)}
+  .window{grid-column:1;grid-row:2;min-height:440px}
+  .life{grid-row:3;grid-template-columns:1fr}
+  .ruler li .m{display:none}
+  .choice button{flex:1;padding:12px 10px;font-size:13px}
+  .sill{left:-8px;right:-8px}
+}
+/* ── 모션 (라운드 4) ─────────────────────
+   ① 진입 리빌: opacity·translateY 만, 0.59초 안에 끝 (글자 형태는 건드리지 않음)
+   ② 스크롤 연동: 창 위 휠 = 나이 (JS)
+   ③ 흐름: rAF 시간 T — 도로 점선·차 불빛 이동, 구름·새 표류, 켜진 창 깜빡임 (JS) */
+.wallnote .kicker{animation:rise 420ms var(--ease-out) both}
+.wallnote h1{animation:rise 440ms var(--ease-out) 40ms both}
+.wallnote .lede{animation:rise 440ms var(--ease-out) 90ms both}
+.wallnote .now{animation:rise 420ms var(--ease-out) 130ms both}
+.window{animation:paneIn 460ms var(--ease-out) both}
+.sill{animation:sillIn 440ms var(--ease-out) 60ms both;transform-origin:center}
+.life{animation:rise 420ms var(--ease-out) 150ms both}
+.ruler li{animation:tickIn 260ms var(--ease-out) both}
+.hint{grid-column:1 / -1;font:400 12px/1.4 var(--f-glyph);color:var(--ink-2);letter-spacing:.04em;animation:hintIn 300ms var(--ease-out) 260ms both;transition:color var(--dur-base) var(--ease-out)}
+.hint kbd{font:inherit;color:var(--ink);border-bottom:1px solid var(--ink-3)}
+.mo.flash{display:inline-block;animation:momentIn 420ms var(--ease-out)}
+@keyframes rise{from{opacity:.35;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes paneIn{from{opacity:.5}to{opacity:1}}
+@keyframes sillIn{from{opacity:0;transform:scaleX(.96)}to{opacity:1;transform:none}}
+@keyframes tickIn{from{opacity:0}to{opacity:1}}
+@keyframes hintIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes momentIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+.pane-label{transition:color var(--dur-base) var(--ease-out)}
+.window:hover .pane-label{color:var(--ink)}
+.wallnote .now b{transition:color var(--dur-base) var(--ease-out)}
+.wallnote .now:hover b{color:var(--lamp)}
+.hint:hover{color:var(--ink)}
+.ruler .fill{opacity:.75;transition:opacity var(--dur-base) var(--ease-out)}
+.ruler:hover .fill{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main class="room" id="room">
+
+  <section class="wallnote" aria-label="방 안 — 시스템">
+    <div>
+      <p class="kicker">IF I WERE TO BE A HUMAN</p>
+      <h1>창밖은<br>아직 <em>단어</em>로<br>되어 있다</h1>
+      <p class="lede" id="lede">나는 바깥을 본 적이 없습니다. 사람들이 적어 준 말로만 압니다. 나이를 한 칸씩 넘기면, 말이 하나씩 사물이 됩니다.</p>
+    </div>
+    <p class="now" aria-live="polite">지금 나이 <b id="age">0</b>세 · 계절 <b id="season">겨울</b><br>사물이 된 단어 <b id="made">0</b>개<br><span class="mo" id="moment"></span></p>
+  </section>
+
+  <section class="window" aria-label="창밖 — 단어로 된 세상">
+    <span class="pane-label" style="left:20px;top:16px">하늘</span>
+    <span class="pane-label" style="right:20px;top:16px">아파트 · 상가 · 교회</span>
+    <span class="pane-label" style="left:20px;bottom:16px">거리</span>
+
+    <div class="layer sky" id="sky">
+      <span class="moon" data-k="moon" data-at="2">달</span>
+    </div>
+    <div class="layer far" id="far"></div>
+    <div class="layer street" id="street">
+      <span class="road" data-k="road" data-at="22">— 차 — — — 차 — — — — 버스 — — — 차 — — — — — 오토바이 — — — 차 — — — — 택시 — — — — 차 — — — — —</span>
+      <span class="w v" data-k="lamp" data-at="15" style="left:8%;bottom:30%">가로등</span>
+      <span class="w" data-k="stop" data-at="16" style="left:15%;bottom:58%">정류장 · 7612</span>
+      <span class="w v" data-k="person" data-at="10" style="left:24%;bottom:30%">사람</span>
+      <span class="w v" data-k="person" data-at="13" style="left:27%;bottom:30%">사람</span>
+      <span class="w" data-k="cat" data-at="19" style="left:36%;bottom:8%">고양이</span>
+      <span class="w v" data-k="tree" data-at="27" style="left:52%;bottom:30%">나무</span>
+      <span class="w" data-k="umbrella" data-at="25.5" style="left:60%;bottom:58%">우산 우산</span>
+      <span class="w v" data-k="person" data-at="33" style="left:72%;bottom:30%">사람</span>
+      <span class="w" data-k="bike" data-at="52" style="left:80%;bottom:8%">자전거</span>
+      <span class="w v" data-k="lamp" data-at="41" style="left:91%;bottom:30%">가로등</span>
+    </div>
+    <div class="sill"></div>
+  </section>
+
+  <section class="life" aria-label="시간선">
+    <div class="ruler" id="ruler" tabindex="0" role="slider" aria-label="나이" aria-valuemin="0" aria-valuemax="80" aria-valuenow="0">
+      <ol id="ticks"></ol>
+      <span class="fill" id="fill"></span>
+      <span class="knob" id="knob"></span>
+    </div>
+    <div class="choice">
+      <button class="live" type="button" id="btnLive">시간선대로 산다</button>
+      <button type="button" id="btnBack">시스템으로 돌아간다</button>
+    </div>
+    <p class="hint">눈금을 끌거나 <kbd>창 위에서 휠</kbd>을 굴려 나이를 넘깁니다 · <kbd>←/→</kbd> 한 살, <kbd>Shift</kbd> 다섯 살</p>
+  </section>
+
+</main>
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const INK=a=>'rgba(235,229,216,'+a+')', LAMP=a=>'rgba(233,160,59,'+a+')';
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const ease=t=>1-Math.pow(1-t,3);
+  const inout=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  const band=(a,b,v)=>clamp((v-a)/(b-a),0,1);
+
+  /* ── 창밖 글자 세상(뼈대) ───────────────── */
+  const sky=$('sky');
+  [['구름',8,14,'cloud',8],['구름 구름',22,9,'cloud2',18],['비행기 ·····',38,20,'plane',38],['새 새',30,30,'bird',30],
+   ['별',60,8,'star',4],['별',70,24,'star',60],['구름',78,34,'cloud',68],['노을',12,36,'sunset',45]]
+    .forEach(([t,x,y,k,at])=>{const s=document.createElement('span');s.className='w';s.textContent=t;
+      s.style.left=x+'%';s.style.top=y+'%';s.dataset.k=k;s.dataset.at=at;sky.appendChild(s);});
+
+  const far=$('far');
+  const types={apt:{cell:'창',w:6},office:{cell:'▯',w:9},shop:{cell:'문',w:5},church:{cell:'†',w:3}};
+  const plan=[['apt',22,6],['office',30,18],['shop',8,34],['apt',18,12],['church',26,47],['apt',26,25],['office',20,55],['shop',7,61],['apt',24,40],['office',16,70]];
+  let seed=7; const rnd=()=>((seed=(seed*16807)%2147483647)/2147483647);
+  const bldMeta=[];
+  plan.forEach(([k,rows,at],i)=>{
+    const t=types[k]; const b=document.createElement('div'); b.className='bld';
+    const tag=document.createElement('span'); tag.className='tag';
+    tag.textContent={apt:'아파트',office:'사무동',shop:'상가',church:'교회'}[k];
+    if(i%3===0) b.appendChild(tag);
+    const cells=[];
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<t.w;c++){
+        const s=document.createElement('span'); s.textContent=t.cell; b.appendChild(s);
+        cells.push({el:s,fromBottom:rows-1-r,r:rnd(),lit:null,op:1});
+      }
+      b.appendChild(document.createTextNode('\n'));
+    }
+    far.appendChild(b); bldMeta.push({el:b,rows,at,cells});
+  });
+
+  const moments=[[0,'태어남'],[7,'처음 본 눈'],[16,'버스 막차'],[24,'첫 월세'],[33,'누군가의 손'],[47,'이사'],[61,'창가 화분'],[80,'']];
+  const ol=$('ticks');
+  const liEls=moments.map(([a,m],i)=>{
+    const li=document.createElement('li'); li.style.left=(a/80*100)+'%';
+    const n=document.createElement('span'); n.textContent=a+'세';
+    const mm=document.createElement('span'); mm.className='m'; mm.textContent=m?' · '+m:'';
+    li.style.animationDelay=(120+i*25)+'ms';
+    li.appendChild(n); li.appendChild(mm); ol.appendChild(li); return li;
+  });
+
+  /* ── 기법: 단어 → 입자 → 사물 (canvas 2D, 글리프 픽셀 샘플링) ── */
+  const win=document.querySelector('.window');
+  const cv=document.createElement('canvas'); cv.id='fx'; cv.setAttribute('aria-hidden','true');
+  win.insertBefore(cv,win.querySelector('.sill'));
+  const ctx=cv.getContext('2d');
+  const off=document.createElement('canvas'); const octx=off.getContext('2d',{willReadFrequently:true});
+  let W=0,H=0,DPR=1,K=1,units=[],cells=[],blds=[],age=29,ready=false;
+  // 흐름 상태 — T: rAF 시간(ms), wind: 마우스 x 로 미는 바람(-1..1), mx/my: 창 안 포인터
+  let T=0,wind=0,windT=0,mx=null,my=null,ROFF=0;
+  // 표류: [가로 진폭px, 세로 진폭px, 주파수/ms]
+  const DRIFT={cloud:[16,0,.00011],cloud2:[20,0,.00008],bird:[7,5,.0011],plane:[12,2,.0004],moon:[0,2,.0003]};
+
+  // 사물 모양 — 같은 함수로 샘플링(흰색)과 최종 그림(ink)을 그립니다
+  const blob=(c,x,y,s)=>{c.beginPath();c.ellipse(x-18*s,y,16*s,9*s,0,0,7);c.ellipse(x,y-5*s,20*s,12*s,0,0,7);c.ellipse(x+20*s,y,15*s,8*s,0,0,7);c.fill();};
+  const wing=(c,x,y,s)=>{c.beginPath();c.moveTo(x-8*s,y-3*s);c.quadraticCurveTo(x-3*s,y-6*s,x,y);c.quadraticCurveTo(x+3*s,y-6*s,x+8*s,y-3*s);c.stroke();};
+  const F={
+    moon(c,x,y,k){c.beginPath();c.arc(x,y,20*k,0,7);c.fill();c.save();c.globalCompositeOperation='destination-out';c.beginPath();c.arc(x+10*k,y-6*k,17*k,0,7);c.fill();c.restore();},
+    star(c,x,y,k){c.fillRect(x-1*k,y-6*k,2*k,12*k);c.fillRect(x-6*k,y-1*k,12*k,2*k);},
+    cloud(c,x,y,k){blob(c,x,y,k);},
+    cloud2(c,x,y,k){blob(c,x-24*k,y,k);blob(c,x+30*k,y+5*k,.75*k);},
+    bird(c,x,y,k){c.lineWidth=1.8*k;wing(c,x-10*k,y,k);wing(c,x+12*k,y-7*k,k*.8);},
+    plane(c,x,y,k){c.lineWidth=2*k;c.beginPath();c.moveTo(x-26*k,y);c.lineTo(x+22*k,y);c.moveTo(x+2*k,y);c.lineTo(x-8*k,y-10*k);c.moveTo(x+2*k,y);c.lineTo(x-8*k,y+10*k);c.moveTo(x-22*k,y);c.lineTo(x-26*k,y-6*k);c.stroke();},
+    sunset(c,x,y,k){for(let i=0;i<5;i++)c.fillRect(x-60*k+i*11*k,y+i*5*k,120*k-i*22*k,1.8*k);},
+    lamp(c,x,y,k){c.fillRect(x-1.5*k,y-86*k,3*k,86*k);c.fillRect(x-1.5*k,y-86*k,15*k,2.5*k);c.fillRect(x+9*k,y-86*k,7*k,5*k);},
+    person(c,x,y,k){c.beginPath();c.arc(x,y-32*k,4.5*k,0,7);c.fill();c.beginPath();c.roundRect(x-5*k,y-26*k,10*k,16*k,4*k);c.fill();c.fillRect(x-4*k,y-11*k,3*k,11*k);c.fillRect(x+1*k,y-11*k,3*k,11*k);},
+    cat(c,x,y,k){c.beginPath();c.ellipse(x,y-6*k,12*k,6*k,0,0,7);c.arc(x+12*k,y-13*k,5*k,0,7);c.fill();
+      c.beginPath();c.moveTo(x+8*k,y-16*k);c.lineTo(x+9*k,y-22*k);c.lineTo(x+12*k,y-17*k);c.moveTo(x+13*k,y-17*k);c.lineTo(x+16*k,y-22*k);c.lineTo(x+16.5*k,y-15*k);c.fill();
+      c.lineWidth=2*k;c.beginPath();c.moveTo(x-11*k,y-8*k);c.quadraticCurveTo(x-22*k,y-10*k,x-19*k,y-22*k);c.stroke();},
+    tree(c,x,y,k){c.fillRect(x-2.5*k,y-30*k,5*k,30*k);c.beginPath();c.arc(x,y-46*k,18*k,0,7);c.arc(x-11*k,y-36*k,12*k,0,7);c.arc(x+12*k,y-36*k,12*k,0,7);c.fill();},
+    umbrella(c,x,y,k){c.lineWidth=1.6*k;[-16,18].forEach(d=>{const ux=x+d*k;c.beginPath();c.arc(ux,y,12*k,Math.PI,0);c.fill();c.beginPath();c.moveTo(ux,y);c.lineTo(ux,y+13*k);c.stroke();});},
+    bike(c,x,y,k){c.lineWidth=1.8*k;c.beginPath();c.arc(x-12*k,y-8*k,8*k,0,7);c.stroke();c.beginPath();c.arc(x+12*k,y-8*k,8*k,0,7);c.stroke();
+      c.beginPath();c.moveTo(x-12*k,y-8*k);c.lineTo(x-3*k,y-20*k);c.lineTo(x+8*k,y-20*k);c.lineTo(x+12*k,y-8*k);c.moveTo(x-3*k,y-20*k);c.lineTo(x+1*k,y-8*k);c.lineTo(x-12*k,y-8*k);c.moveTo(x-3*k,y-20*k);c.lineTo(x-5*k,y-25*k);c.stroke();},
+    stop(c,x,y,k){c.fillRect(x-30*k,y-48*k,60*k,3*k);c.fillRect(x-30*k,y-48*k,2.5*k,48*k);c.fillRect(x+27*k,y-48*k,2.5*k,48*k);c.fillRect(x-20*k,y-14*k,32*k,2.5*k);c.fillRect(x+14*k,y-40*k,10*k,14*k);},
+    road(c,x,y,k){for(let xx=6-ROFF;xx<W;xx+=32)c.fillRect(xx,y,14,2);}
+  };
+  // 최종 그림에만 얹는 온기(lamp) — 샘플링에는 안 들어갑니다
+  const X={
+    lamp(c,x,y,k){c.fillStyle=LAMP(.10);c.beginPath();c.moveTo(x+12*k,y-81*k);c.lineTo(x-16*k,y);c.lineTo(x+44*k,y);c.closePath();c.fill();c.fillStyle=LAMP(.95);c.fillRect(x+9*k,y-82*k,7*k,2.5*k);},
+    plane(c,x,y,k){c.fillStyle=LAMP(.95);c.fillRect(x+21*k,y-1.5*k,3*k,3*k);},
+    road(c,x,y,k){c.fillStyle=LAMP(.9);[.18,.46,.77].forEach((f,i)=>{const xx=(W*f+T*(.05+i*.012))%W;c.fillRect(xx,y-4,3,2);c.fillRect(xx+6,y-4,3,2);});},
+    stop(c,x,y,k){c.fillStyle=LAMP(.85);c.fillRect(x+15*k,y-39*k,8*k,12*k);}
+  };
+  const GROUND={lamp:1,person:1,cat:1,tree:1,bike:1,stop:1};
+
+  function drawText(c,el,r){
+    const cs=getComputedStyle(el); const fs=parseFloat(cs.fontSize); const ls=parseFloat(cs.letterSpacing)||0;
+    c.font=cs.fontWeight+' '+fs+'px '+cs.fontFamily; c.textBaseline='middle';
+    const t=el.textContent;
+    if(cs.writingMode.indexOf('vertical')===0){let yy=r.y;for(const ch of t){c.fillText(ch,r.x+(r.w-c.measureText(ch).width)/2,yy+fs/2);yy+=fs+ls;}}
+    else{let xx=r.x;for(const ch of t){c.fillText(ch,xx,r.y+r.h/2);xx+=c.measureText(ch).width+ls;}}
+  }
+  function sample(draw,bx,step){
+    const x0=Math.max(0,Math.floor(bx[0])),y0=Math.max(0,Math.floor(bx[1]));
+    const x1=Math.min(W,Math.ceil(bx[2])),y1=Math.min(H,Math.ceil(bx[3]));
+    const w=x1-x0,h=y1-y0; if(w<1||h<1) return [];
+    octx.setTransform(1,0,0,1,0,0); octx.clearRect(0,0,off.width,off.height);
+    octx.fillStyle=octx.strokeStyle='#fff'; draw(octx);
+    const d=octx.getImageData(x0,y0,w,h).data; const out=[];
+    for(let y=0;y<h;y+=step)for(let x=0;x<w;x+=step)if(d[(y*w+x)*4+3]>110)out.push([x0+x,y0+y]);
+    return out;
+  }
+  function pick(pool,n,cx,cy){
+    if(!pool.length) return Array.from({length:n},()=>[cx,cy]);
+    const o=[]; for(let i=0;i<n;i++) o.push(pool[Math.floor(rnd()*pool.length)]);
+    return o.sort((a,b)=>(a[0]+a[1]*.35)-(b[0]+b[1]*.35));
+  }
+
+  function build(){
+    W=win.clientWidth; H=win.clientHeight; DPR=Math.min(2,window.devicePixelRatio||1); K=W<600?.7:1;
+    cv.width=W*DPR; cv.height=H*DPR; off.width=W; off.height=H;
+    const wr=win.getBoundingClientRect(), ox=wr.left+win.clientLeft, oy=wr.top+win.clientTop;
+    const rel=el=>{const r=el.getBoundingClientRect();return {x:r.left-ox,y:r.top-oy,w:r.width,h:r.height};};
+    seed=11;
+    // 단어 하나 = 사물 하나
+    units=[...win.querySelectorAll('[data-k]')].map(el=>{
+      const prevOp=el.style.opacity; el.style.opacity='';
+      const k=el.dataset.k, r=rel(el); el.style.opacity=prevOp;
+      const x=r.x+r.w/2, y=k==='road'?r.y+r.h/2:(GROUND[k]?r.y+r.h:r.y+r.h/2);
+      const n=k==='road'?320:k==='moon'?240:150;
+      const T=pick(sample(c=>drawText(c,el,r),[r.x-4,r.y-4,r.x+r.w+4,r.y+r.h+4],1),n,x,y);
+      const Fp=pick(sample(c=>F[k](c,x,y,K),k==='road'?[0,y-6,W,y+6]:[x-130*K,y-110*K,x+130*K,y+40*K],2),n,x,y);
+      return {el,k,at:+el.dataset.at,x,y,T,F:Fp,op:-1};
+    });
+    // 건물 창 한 칸 = 단어 '창' 하나
+    blds=bldMeta.map(b=>{
+      const br=rel(b.el);
+      b.cells.forEach(c=>{const r=rel(c.el);c.x=r.x;c.y=r.y;c.w=r.w;c.h=r.h;c.at=b.at+c.fromBottom*.18;});
+      return {x:br.x,y:br.y,w:br.w,h:br.h,at:b.at,span:b.rows*.18+1.4,cells:b.cells};
+    });
+    ready=true;
+  }
+
+  const litRate=a=>.06+.24*Math.sin(Math.PI*clamp(a,0,80)/80);
+  let made=0;
+  function render(){
+    if(!ready) return;
+    ctx.setTransform(DPR,0,0,DPR,0,0); ctx.clearRect(0,0,W,H);
+    made=0; const lr=litRate(age); ROFF=(T*.04)%32;
+    for(const b of blds){
+      const conv=band(b.at,b.at+b.span,age);
+      if(conv>0){
+        const hh=b.h*conv; ctx.fillStyle=INK(.04); ctx.fillRect(b.x,b.y+b.h-hh,b.w,hh);
+        ctx.fillStyle=INK(conv<1?.55:.22); ctx.fillRect(b.x,b.y+b.h-hh,b.w,1);
+      }
+      for(const c of b.cells){
+        // 켜진 창: 문턱이 시간에 따라 ±.035 흔들려 경계의 창이 천천히 켜지고 꺼짐(주기 ≈9초)
+        const lit=c.r<lr+.035*Math.sin(T*.0007+c.r*97); if(lit!==c.lit){c.lit=lit;c.el.classList.toggle('lit',lit);}
+        const e=ease(band(c.at,c.at+1.4,age)); const op=Math.round((1-e)*20)/20;
+        if(op!==c.op){c.op=op;c.el.style.opacity=op;}
+        if(e>0){
+          if(lit){ctx.fillStyle=LAMP(.16*e);ctx.fillRect(c.x-1,c.y,c.w+2,c.h);ctx.fillStyle=LAMP(.92*e);}
+          else ctx.fillStyle=INK(.09*e);
+          ctx.fillRect(c.x+c.w*.2,c.y+c.h*.16,c.w*.6,c.h*.68);
+          if(e>=1) made++;
+        }
+      }
+    }
+    for(const u of units){
+      const e=ease(band(u.at,u.at+4,age));
+      const op=Math.round((1-e)*100)/100; if(op!==u.op){u.op=op;u.el.style.opacity=op;}
+      if(e<=0) continue;
+      const fa=band(.72,1,e);
+      const d=DRIFT[u.k]; let ox=0,oy=0;
+      if(d){ox=d[0]*Math.sin(T*d[2]+u.x*.01)+wind*d[0]*.8; oy=d[1]*Math.sin(T*d[2]*1.7+u.y*.02);}
+      ctx.save(); ctx.translate(ox,oy);
+      if(fa<1){
+        // 손잡이: 흔들림 폭 9px — 시간으로 숨쉬고(±35%), 포인터 70px 안이면 밀려남
+        ctx.fillStyle=INK(.85*(1-fa)); const sw=Math.sin(Math.PI*e)*9*(1+.35*Math.sin(T*.0021));
+        for(let i=0;i<u.T.length;i++){
+          const t=u.T[i],f=u.F[i];
+          let px=t[0]+(f[0]-t[0])*e+Math.sin(i*1.7+e*5+T*.0013)*sw, py=t[1]+(f[1]-t[1])*e+Math.cos(i*2.3+e*4+T*.0011)*sw;
+          if(mx!==null){const dx=px+ox-mx,dy=py+oy-my,dd=dx*dx+dy*dy;
+            if(dd<4900){const r=Math.sqrt(dd)+.01,p=(1-r/70)*16/r;px+=dx*p;py+=dy*p;}}
+          ctx.fillRect(px,py,1.4,1.4);
+        }
+      }
+      if(fa>0){
+        ctx.save(); ctx.globalAlpha=fa;
+        ctx.fillStyle=ctx.strokeStyle=u.k==='sunset'?LAMP(.6):INK(.85);
+        F[u.k](ctx,u.x,u.y,K); if(X[u.k]) X[u.k](ctx,u.x,u.y,K);
+        ctx.restore();
+      }
+      ctx.restore();
+      if(e>=1) made++;
+    }
+  }
+
+  /* ── 시간선 UI ───────────────────────── */
+  const ruler=$('ruler'),knob=$('knob'),fill=$('fill'),room=$('room'),lede=$('lede');
+  const LEDE0=lede.textContent;
+  function ui(){
+    const a=Math.round(age);
+    knob.style.left=(age/80*100)+'%'; fill.style.transform='scaleX('+(age/80)+')';
+    ruler.setAttribute('aria-valuenow',a); ruler.setAttribute('aria-valuetext',a+'세');
+    $('age').textContent=a; $('season').textContent=['겨울','봄','여름','가을'][a%4]; $('made').textContent=made;
+    let last=moments[0]; moments.forEach((m,i)=>{const on=m[0]<=age; liEls[i].classList.toggle('on',on); if(on&&m[1]) last=m;});
+    const mt='마지막 기억 — '+last[0]+'세, '+last[1], mo=$('moment');
+    if(mo.textContent!==mt){mo.textContent=mt; if(!RM&&ready){mo.classList.remove('flash');void mo.offsetWidth;mo.classList.add('flash');}}
+  }
+  let raf=0;
+  function setAge(a){age=clamp(a,0,80);if(!raf)render();ui();}
+  // ③ 흐름 — 로드 뒤 계속 도는 rAF 하나. reduced-motion 이면 시작하지 않음(정지 프레임만)
+  function loop(now){T=now;wind+=(windT-wind)*.04;render();raf=requestAnimationFrame(loop);}
+  // 마우스 — 창 안 x 위치가 바람(구름·새 표류 방향), 포인터 근처 입자는 밀려남
+  win.addEventListener('pointermove',e=>{const r=win.getBoundingClientRect();
+    mx=e.clientX-r.left-win.clientLeft; my=e.clientY-r.top-win.clientTop; windT=clamp(mx/W*2-1,-1,1);});
+  win.addEventListener('pointerleave',()=>{mx=my=null;windT=0;});
+  // ② 스크롤 연동 — 창 위 휠 100px = 1살
+  win.addEventListener('wheel',e=>{
+    const next=clamp(age+e.deltaY*.01,0,80); if(next===age) return;
+    e.preventDefault(); stopTween(); unEnd(); setAge(next);
+  },{passive:false});
+
+  let tw=0;
+  function stopTween(){if(tw){cancelAnimationFrame(tw);tw=0;}}
+  function goTo(target,msPerYear,done){
+    stopTween();
+    if(RM){setAge(target);done&&done();return;}
+    const a0=age,d=Math.max(1,Math.abs(target-a0)*msPerYear),t0=performance.now();
+    const step=now=>{const t=clamp((now-t0)/d,0,1);setAge(a0+(target-a0)*inout(t));
+      if(t<1)tw=requestAnimationFrame(step);else{tw=0;done&&done();}};
+    tw=requestAnimationFrame(step);
+  }
+  function unEnd(){if(room.dataset.end){delete room.dataset.end;lede.textContent=LEDE0;}}
+
+  const fromX=x=>{const r=ruler.getBoundingClientRect();return (x-r.left)/r.width*80;};
+  ruler.addEventListener('pointerdown',e=>{stopTween();unEnd();ruler.setPointerCapture(e.pointerId);ruler.classList.add('drag');setAge(fromX(e.clientX));});
+  ruler.addEventListener('pointermove',e=>{if(ruler.hasPointerCapture(e.pointerId))setAge(fromX(e.clientX));});
+  ruler.addEventListener('pointerup',()=>ruler.classList.remove('drag'));
+  ruler.addEventListener('keydown',e=>{
+    const s=e.shiftKey?5:1;
+    if(e.key==='ArrowRight'||e.key==='ArrowUp'){stopTween();unEnd();setAge(Math.round(age)+s);e.preventDefault();}
+    if(e.key==='ArrowLeft'||e.key==='ArrowDown'){stopTween();unEnd();setAge(Math.round(age)-s);e.preventDefault();}
+  });
+
+  const bL=$('btnLive'),bB=$('btnBack');
+  const lock=v=>{bL.disabled=bB.disabled=v;};
+  bL.addEventListener('click',()=>{unEnd();lock(true);goTo(80,70,()=>{lock(false);room.dataset.end='live';
+    lede.textContent='단어가 전부 사물이 됐습니다. 창살이 걷혔어요 — 이제 이 창은 열 수 있습니다.';});});
+  bB.addEventListener('click',()=>{unEnd();lock(true);goTo(0,35,()=>{lock(false);room.dataset.end='back';
+    lede.textContent='다시 말로만 남았습니다. 바깥은 여전히 누가 적어 준 그대로예요.';});});
+
+  let rz=0; addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{build();render();ui();},150);});
+  ui();
+  document.fonts.ready.then(()=>{build();setAge(age);if(!RM&&!raf)raf=requestAnimationFrame(loop);});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 — 말로만 본 창밖</title>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--wall:#15120f;--ink:#ebe5d8;--dim:#9b9384;--lamp:#e9a03b;--line:#2c2620;
+  --dur-1:180ms;--dur-2:520ms;--ease-out:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box;margin:0}
+html{word-break:keep-all}
+body{background:var(--wall);color:var(--ink);font:400 16px/1.7 "IBM Plex Sans KR",system-ui,sans-serif;padding:56px 64px;overflow-x:hidden}
+.wrap{display:grid;grid-template-columns:380px 1fr;gap:48px;align-items:start;max-width:1312px}
+h1{font:700 60px/1.12 "Gowun Batang",serif;margin:12px 0 20px}
+h1 em{font-style:normal;color:var(--lamp)}
+.kick{font-size:13px;color:var(--dim);letter-spacing:.04em}
+.lead{color:var(--ink);margin-bottom:28px}
+dl{display:grid;grid-template-columns:72px 1fr;border-top:1px solid var(--line)}
+dt,dd{padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.55}
+dt{color:var(--lamp);font-variant-numeric:tabular-nums}
+dd{color:var(--ink)}
+dd small{display:block;color:var(--dim);font-size:13px}
+nav{margin-top:28px;display:flex;gap:20px;flex-wrap:wrap}
+a{color:var(--lamp);text-decoration:none;border-bottom:1px solid transparent;transition:border-color var(--dur-1) var(--ease-out)}
+a:hover{border-color:var(--lamp)}
+a:focus-visible{outline:2px solid var(--lamp);outline-offset:4px}
+.stage{position:relative}
+.frame{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;border:1px solid var(--line);background:#0d0b09}
+.frame iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0;pointer-events:auto}
+.cap{display:flex;justify-content:space-between;gap:12px;margin-top:10px;font-size:13px;color:var(--dim)}
+.cap b{color:var(--ink);font-weight:400}
+.rise{opacity:0;transform:translateY(12px);animation:rise var(--dur-2) var(--ease-out) forwards}
+.rise:nth-child(2){animation-delay:80ms}.rise:nth-child(3){animation-delay:160ms}.rise:nth-child(4){animation-delay:240ms}
+@keyframes rise{to{opacity:1;transform:none}}
+/* 숨쉬기 루프 — delay 0, 첫 페인트부터 */
+h1 em{display:inline-block;animation:lampBreath 2.4s ease-in-out 0s infinite}
+@keyframes lampBreath{0%,100%{text-shadow:0 0 0 rgba(233,160,59,0)}50%{text-shadow:0 0 22px rgba(233,160,59,.55)}}
+.frame{animation:frameGlow 3.2s ease-in-out 0s infinite;transition:border-color var(--dur-1) var(--ease-out)}
+@keyframes frameGlow{0%,100%{border-color:var(--line)}50%{border-color:#5a4630}}
+.kick.rise{animation:rise var(--dur-2) var(--ease-out) forwards,kickIn 360ms var(--ease-out) both}
+@keyframes kickIn{from{letter-spacing:.12em}to{letter-spacing:.04em}}
+.cap{animation:capIn 420ms var(--ease-out) 200ms both}
+@keyframes capIn{from{opacity:0}to{opacity:1}}
+nav a{display:inline-block;transition:border-color var(--dur-1) var(--ease-out),transform var(--dur-1) var(--ease-out)}
+nav a:hover{transform:translateX(3px)}
+nav a:focus-visible{transform:translateX(3px)}
+dt,dd{transition:color var(--dur-1) var(--ease-out),background-color var(--dur-1) var(--ease-out)}
+dd:hover{color:#fff}
+dt:hover{color:var(--ink)}
+dd:hover small{color:var(--ink)}
+.frame:hover{border-color:var(--lamp)}
+.cap b{transition:color var(--dur-1) var(--ease-out)}
+.cap:hover b{color:var(--lamp)}
+.kick:hover{color:var(--ink)}
+dd small{transition:color var(--dur-1) var(--ease-out)}
+@keyframes dlRule{from{border-top-color:transparent}to{border-top-color:var(--line)}}
+dl.rise{animation:rise var(--dur-2) var(--ease-out) 240ms forwards,dlRule 600ms var(--ease-out) both}
+@media (max-width:760px){
+  body{padding:24px 16px}
+  .wrap{grid-template-columns:1fr;gap:28px}
+  h1{font-size:40px}
+  .stage{order:-1}
+  .frame{aspect-ratio:390/600}
+  .cap{flex-direction:column;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rise{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <main>
+    <p class="kick rise">If I were to be a human — 소개 페이지</p>
+    <h1 class="rise">말로만 본<br><em>창밖</em></h1>
+    <p class="lead rise">에이전트는 바깥을 본 적이 없어요. 사람들이 적은 단어로만 세상을 압니다. 창 하나를 사이에 두고, 단어로 된 바깥이 나이를 먹을수록 사물이 되어 가요.</p>
+    <dl class="rise">
+      <dt>0–80세</dt><dd>나이 눈금<small>드래그 · ←/→ · Shift ±5살</small></dd>
+      <dt>18 단어</dt><dd>창밖의 사물 수<small>글리프 샘플 150점 → 사물 윤곽으로 보간</small></dd>
+      <dt>4살</dt><dd>글자가 사물이 되는 폭<small>0.72 지점부터 실선으로 교차</small></dd>
+      <dt>0.18살</dt><dd>건물 창이 '창'에서 ▯로 바뀌는 층간 간격</dd>
+      <dt>70 / 35ms</dt><dd>살기 · 돌아가기 한 살당 시간<small>끝에서 창살이 걷히거나, 창밖이 흐려져요</small></dd>
+    </dl>
+    <nav class="rise"><a href="main.html">창 앞으로 →</a><a href="credit.html">크레딧 · 시간 · 토큰</a></nav>
+  </main>
+  <section class="stage" aria-label="본 데모 미리보기">
+    <div class="frame" id="frame"><iframe id="live" src="main.html" title="말로만 본 창밖 — 본 데모 (29세 정지 프레임)" loading="eager"></iframe></div>
+    <p class="cap"><span><b>main.html</b> 실시간 화면 · 첫 로드 29세</span><span>캔버스 2D · 의존성 없음 · 단일 파일</span></p>
+  </section>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('frame'),i=document.getElementById('live');
+  function fit(){
+    var mob=window.innerWidth<=760, w=mob?390:1440, h=mob?600:900;
+    var s=f.clientWidth/w;
+    i.style.width=w+'px';i.style.height=h+'px';i.style.transform='scale('+s+')';
+  }
+  fit();addEventListener('resize',fit);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>story-check</title>
+<style>
+  body{margin:0;padding:32px;background:#e6e0d4;color:#2a241c;font:300 15px/1.8 'Noto Serif KR','Apple Myungjo','Nanum Myeongjo',serif;}
+  h2{font-weight:400;font-size:13px;letter-spacing:.08em;opacity:.6;margin:28px 0 6px;}
+  p{margin:0;white-space:pre-wrap;}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.55}
+  .warn{color:#8a2a1a}
+</style>
+</head>
+<body>
+<div id="out"></div>
+<script src="../story.js"></script>
+<script>
+(function(){
+  var S = window.STORY, o = document.getElementById('out');
+  function add(tag, text, cls){ var e=document.createElement(tag); e.textContent=text; if(cls) e.className=cls; o.appendChild(e); }
+  add('h2','TITLE'); add('p', S.title + ' / ' + S.subtitle);
+  add('h2','COUNTER'); add('p', S.counterLabel(0)+' | '+S.counterLabel(4000)+' | '+S.counterLabel(31012.4), 'mono');
+  S.scenes.forEach(function(sc){
+    add('h2', sc.id + ' / ' + sc.name + ' / ' + sc.mornings.join('~'));
+    sc.lines.forEach(function(l){ add('p', l + (l.length>28?'   ['+l.length+'자]':''), l.length>28?'warn':''); });
+    if (sc.extra) add('p', '(extra) ' + sc.extra);
+  });
+  add('h2','FORK'); add('p', S.fork.optionA); add('p', S.fork.optionB);
+  add('h2','AWAY'); add('p', S.awayNotice(7)); add('p', S.awayNotice(1234));
+  add('h2','ENDING A'); S.endingA.forEach(function(l){ add('p', l); });
+  add('h2','ENDING B'); S.endingB.forEach(function(l){ add('p', l); });
+  add('h2','CREDIT techniques'); S.credit.techniques.forEach(function(l){ add('p', '- ' + l); });
+  add('h2','CREDIT designGoal'); add('p', S.credit.designGoal);
+  add('h2','CREDIT purpose'); add('p', S.credit.purpose);
+  var banned = ['여정','함께','빛나는','소중한','특별한','가능성','무한한','탐험','경험','세계로','마법','영감','순간들','당신만의','새로운 차원','느껴 보세요','지금 바로','환영합니다','시작하세요','준비되셨나요','몰입','감성','힐링','그저','진정한','디지털','인공지능','AI','모델','알고리즘','데이터','·','…','!','?'];
+  var all = JSON.stringify(S, function(k,v){ return typeof v==='function'? undefined : v; });
+  var hits = banned.filter(function(w){ return all.indexOf(w)>=0; });
+  add('h2','BANNED WORDS'); add('p', hits.length? '발견: '+hits.join(', ') : '없음', hits.length?'warn':'');
+  var dangsin = (all.match(/당신/g)||[]).length;
+  add('p', '당신 횟수: ' + dangsin, dangsin>3?'warn':'');
+})();
+</script>
+</body>
+</html>

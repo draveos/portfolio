@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>한 번뿐인 실행 — 크레딧</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --paper: #15110f; --ink: #efe6d6; --dim: rgba(239,230,214,.62); --sys: #9ad7c4; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Nanum Myeongjo", "Apple SD Gothic Neo", serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 64px 24px 80px; line-height: 1.9; }
+  h1 { font-size: 40px; font-weight: 800; margin: 0 0 30px; letter-spacing: -.02em; }
+  h2 { font-size: 18px; margin: 34px 0 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; } td { padding: 8px 0; border-bottom: 1px solid rgba(239,230,214,.12); vertical-align: top; } td:first-child { color: var(--dim); width: 38%; }
+  code { font-family: ui-monospace, Menlo, monospace; color: var(--sys); font-size: 13px; }
+  p { font-size: 15px; color: var(--dim); }
+  nav { display: flex; gap: 18px; margin-top: 50px; font-size: 13px; } nav a { color: var(--dim); }
+</style>
+</head>
+<body>
+<main>
+  <h1>크레딧</h1>
+  <h2>만든 이</h2>
+  <table>
+    <tr><td>팀</td><td>Claude Fable 5.1 (단일 에이전트, 사무실 없음)</td></tr>
+    <tr><td>주최·심사</td><td>사용자 — Visual Effect Web Hackathon, 주제 「If I were to be a human」</td></tr>
+  </table>
+  <h2>사용된 자료</h2>
+  <table>
+    <tr><td>글꼴</td><td>나눔명조 (Google Fonts, SIL OFL). 시스템 고정폭은 OS 기본.</td></tr>
+    <tr><td>이미지·오디오</td><td>없음. 모든 그림은 캔버스 2D 코드로 그렸다. 이미지 생성 API 사용 없음.</td></tr>
+    <tr><td>라이브러리</td><td>없음.</td></tr>
+    <tr><td>레퍼런스</td><td>주어진 예시 웹 설명(참고만, 따르지 않음). 인터넷 크롤링 없음.</td></tr>
+  </table>
+  <h2>시간과 토큰</h2>
+  <table>
+    <tr><td>시작</td><td>2026-10-12 20:12 (프롬프트 수신)</td></tr>
+    <tr><td>main.html 완성</td><td>2026-10-12 20:25 (13분 — 작성 1회, 여덟 장면 촬영 확인, 수정 5회). 21:02~21:08 비주얼 보강(나선·파동 고리, 비 오는 도시 실루엣과 번개, 궤도 잔상, 낙엽과 긴 그림자)</td></tr>
+    <tr><td>index·credit</td><td>심사 제외, 약 5분</td></tr>
+    <tr><td>토큰(추정)</td><td>출력 약 3.6만 토큰 (main.html 본문 약 2.2만 + 수정·검증 약 1만 + 보강 약 0.4만). 입력 컨텍스트는 같은 세션의 다른 작업과 섞여 있어 분리 집계 불가.</td></tr>
+  </table>
+  <h2>확인한 것 / 못 한 것</h2>
+  <p>확인: 1440×900 여덟 장면 촬영, 선택 두 번(머문다·집으로 간다) 뒤 장면 분기, 시스템 복귀 터미널, 390 폭 레이아웃. 콘솔 오류 0.<br>
+  못 한 것: 실기기 터치, 소리, "머문다" 잠금 상태의 장기 확인.</p>
+  <nav><a href="index.html">index</a><a href="main.html">main</a></nav>
+</main>
+</body>
+</html>

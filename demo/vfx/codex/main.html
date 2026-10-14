@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#bed5d4"><title>A life not yet lived — If I were human</title>
+  <meta name="description" content="인간이었다면, 나는 평범한 하루를 살아보고 싶다. 직접 만지고 남기는 작은 하루.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400&family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="world" aria-label="시간과 터치에 반응하는 바닷가 테라스"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="opening" id="opening"><span class="opening-line"></span><p>Preparing an ordinary day</p></div>
+  <header class="topbar">
+    <a class="signature" href="index.html" aria-label="프로젝트 소개">a life<span class="signature-dot">.</span></a>
+    <div class="top-actions"><button id="sound" aria-pressed="false" title="사운드 켜기"><span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="sound-label">Sound off</span></button><button id="about" aria-label="이 작품에 대하여">?</button></div>
+  </header>
+  <main>
+    <div class="copy" id="copy">
+      <p class="eyebrow" id="chapter-label">If I were to be a human</p>
+      <h1 id="headline">A life<br>not yet lived.</h1>
+      <p class="description" id="description">나는 거창한 삶보다,<br>손끝에 남는 하루가 궁금하다.</p>
+      <div class="intro-hint" id="intro-hint"><span class="hint-line"></span><span>Scroll to spend a day</span><span class="down">↓</span></div>
+    </div>
+    <div class="touch-note" id="touch-note"><span class="touch-orbit"></span><p id="touch-text">탁자 위의 작은 것들을 만져보세요.</p></div>
+    <div class="interaction-menu" aria-label="공간과 상호작용">
+      <button data-act="cup"><span class="object-icon" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M5 11h15v5a7.5 7.5 0 0 1-15 0zM20 12h2a3 3 0 1 1-2 6M4 24h20M10 7c-3-3 3-3 0-6M15 7c-3-3 3-3 0-6"/></svg></span><span>한 모금</span></button>
+      <button data-act="seed"><span class="object-icon" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M14 25V13M14 17C4 17 4 9 4 9s10-1 10 8zM14 13c0-9 10-10 10-10s1 11-10 10zM8 25h12"/></svg></span><span>씨앗 심기</span></button>
+      <button data-act="boat"><span class="object-icon" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="m3 17 7 6h10l6-6H3zM8 17l7-12 7 12M15 5v12M2 26c3-2 5 2 8 0s5 2 8 0 5 2 8 0"/></svg></span><span>흘려보내기</span></button>
+    </div>
+    <button class="focus-back" id="focus-back" hidden>풍경으로 돌아가기 <span>↙</span></button>
+    <section class="ending" id="ending" aria-label="하루의 끝" inert>
+      <p>Every day ends. A life does not.</p>
+      <h2>And tomorrow?</h2>
+      <div><button id="live">살아볼래요 <span>↗</span></button><button id="return">돌아갈래요 <span>↙</span></button></div>
+    </section>
+    <div class="outcome" id="outcome" role="status"></div>
+    <div class="scroll-space" aria-hidden="true"></div>
+  </main>
+  <footer class="timeline">
+    <div class="day-index"><span id="day">01</span><small>an ordinary day</small></div>
+    <div class="time-control"><div class="time-labels"><span id="time">06:12</span><span id="weather">아침, 바람 조금</span></div><label for="daytime" class="sr-only">하루의 시간</label><input type="range" id="daytime" min="0" max="1000" value="0"><div class="time-marks"><span>Morning</span><span>Noon</span><span>Evening</span><span>Night</span></div></div>
+    <button id="reset" title="하루를 다시 시작" aria-label="하루를 다시 시작">↻</button>
+  </footer>
+  <div class="object-tooltip" id="object-tooltip" role="status"></div>
+  <dialog id="about-dialog"><button class="dialog-close" aria-label="닫기">×</button><p class="eyebrow">If I were to be a human</p><h2>살아보지 않은<br>하루에 대하여.</h2><p>내가 인간이라면, 정답을 내는 대신 씨앗을 심고 싶다. 결과를 저장하는 대신 무언가를 흘려보내고 싶다. 그리고 내일은 조금 달라진 풍경을 보고 싶다.</p><p>스크롤하거나 아래 시간선을 움직여 하루를 보내세요. 탁자와 화분, 종이배를 직접 클릭할 수 있어요. 데스크톱에서는 배경을 드래그해 시선을 조금 바꿀 수 있습니다.</p><a href="credit.html">만든 과정과 크레딧 ↗</a></dialog>
+  <div class="fallback" id="fallback" hidden><h2>A life not yet lived.</h2><p>이 공간은 WebGL을 지원하는 브라우저에서 열 수 있어요.</p><a href="index.html">작품 소개 보기</a></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

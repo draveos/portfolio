@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="쿼리도 9×9 판. 흰 말은 아래, 검은 말은 위, 울타리 세 장이 놓여 있습니다.">
+  <rect width="1600" height="900" fill="#0f1522"/>
+  <g fill="#1c2640">
+    <rect x="472" y="122" width="64" height="64" rx="6"/><rect x="546" y="122" width="64" height="64" rx="6"/><rect x="620" y="122" width="64" height="64" rx="6"/><rect x="694" y="122" width="64" height="64" rx="6"/><rect x="768" y="122" width="64" height="64" rx="6"/><rect x="842" y="122" width="64" height="64" rx="6"/><rect x="916" y="122" width="64" height="64" rx="6"/><rect x="990" y="122" width="64" height="64" rx="6"/><rect x="1064" y="122" width="64" height="64" rx="6"/>
+    <rect x="472" y="196" width="64" height="64" rx="6"/><rect x="546" y="196" width="64" height="64" rx="6"/><rect x="620" y="196" width="64" height="64" rx="6"/><rect x="694" y="196" width="64" height="64" rx="6"/><rect x="768" y="196" width="64" height="64" rx="6"/><rect x="842" y="196" width="64" height="64" rx="6"/><rect x="916" y="196" width="64" height="64" rx="6"/><rect x="990" y="196" width="64" height="64" rx="6"/><rect x="1064" y="196" width="64" height="64" rx="6"/>
+    <rect x="472" y="270" width="64" height="64" rx="6"/><rect x="546" y="270" width="64" height="64" rx="6"/><rect x="620" y="270" width="64" height="64" rx="6"/><rect x="694" y="270" width="64" height="64" rx="6"/><rect x="768" y="270" width="64" height="64" rx="6"/><rect x="842" y="270" width="64" height="64" rx="6"/><rect x="916" y="270" width="64" height="64" rx="6"/><rect x="990" y="270" width="64" height="64" rx="6"/><rect x="1064" y="270" width="64" height="64" rx="6"/>
+    <rect x="472" y="344" width="64" height="64" rx="6"/><rect x="546" y="344" width="64" height="64" rx="6"/><rect x="620" y="344" width="64" height="64" rx="6"/><rect x="694" y="344" width="64" height="64" rx="6"/><rect x="768" y="344" width="64" height="64" rx="6"/><rect x="842" y="344" width="64" height="64" rx="6"/><rect x="916" y="344" width="64" height="64" rx="6"/><rect x="990" y="344" width="64" height="64" rx="6"/><rect x="1064" y="344" width="64" height="64" rx="6"/>
+    <rect x="472" y="418" width="64" height="64" rx="6"/><rect x="546" y="418" width="64" height="64" rx="6"/><rect x="620" y="418" width="64" height="64" rx="6"/><rect x="694" y="418" width="64" height="64" rx="6"/><rect x="768" y="418" width="64" height="64" rx="6"/><rect x="842" y="418" width="64" height="64" rx="6"/><rect x="916" y="418" width="64" height="64" rx="6"/><rect x="990" y="418" width="64" height="64" rx="6"/><rect x="1064" y="418" width="64" height="64" rx="6"/>
+    <rect x="472" y="492" width="64" height="64" rx="6"/><rect x="546" y="492" width="64" height="64" rx="6"/><rect x="620" y="492" width="64" height="64" rx="6"/><rect x="694" y="492" width="64" height="64" rx="6"/><rect x="768" y="492" width="64" height="64" rx="6"/><rect x="842" y="492" width="64" height="64" rx="6"/><rect x="916" y="492" width="64" height="64" rx="6"/><rect x="990" y="492" width="64" height="64" rx="6"/><rect x="1064" y="492" width="64" height="64" rx="6"/>
+    <rect x="472" y="566" width="64" height="64" rx="6"/><rect x="546" y="566" width="64" height="64" rx="6"/><rect x="620" y="566" width="64" height="64" rx="6"/><rect x="694" y="566" width="64" height="64" rx="6"/><rect x="768" y="566" width="64" height="64" rx="6"/><rect x="842" y="566" width="64" height="64" rx="6"/><rect x="916" y="566" width="64" height="64" rx="6"/><rect x="990" y="566" width="64" height="64" rx="6"/><rect x="1064" y="566" width="64" height="64" rx="6"/>
+    <rect x="472" y="640" width="64" height="64" rx="6"/><rect x="546" y="640" width="64" height="64" rx="6"/><rect x="620" y="640" width="64" height="64" rx="6"/><rect x="694" y="640" width="64" height="64" rx="6"/><rect x="768" y="640" width="64" height="64" rx="6"/><rect x="842" y="640" width="64" height="64" rx="6"/><rect x="916" y="640" width="64" height="64" rx="6"/><rect x="990" y="640" width="64" height="64" rx="6"/><rect x="1064" y="640" width="64" height="64" rx="6"/>
+    <rect x="472" y="714" width="64" height="64" rx="6"/><rect x="546" y="714" width="64" height="64" rx="6"/><rect x="620" y="714" width="64" height="64" rx="6"/><rect x="694" y="714" width="64" height="64" rx="6"/><rect x="768" y="714" width="64" height="64" rx="6"/><rect x="842" y="714" width="64" height="64" rx="6"/><rect x="916" y="714" width="64" height="64" rx="6"/><rect x="990" y="714" width="64" height="64" rx="6"/><rect x="1064" y="714" width="64" height="64" rx="6"/>
+  </g>
+  <!-- 흰 말이 갈 수 있는 칸 -->
+  <g fill="#2e4a8c">
+    <rect x="694" y="714" width="64" height="64" rx="6"/><rect x="842" y="714" width="64" height="64" rx="6"/><rect x="768" y="640" width="64" height="64" rx="6"/>
+  </g>
+  <!-- 울타리 -->
+  <g fill="#d4a24e">
+    <rect x="694" y="256" width="138" height="10" rx="5"/>
+    <rect x="906" y="418" width="10" height="138" rx="5"/>
+    <rect x="546" y="552" width="138" height="10" rx="5"/>
+  </g>
+  <!-- 말 -->
+  <circle cx="800" cy="154" r="22" fill="#2a3246" stroke="#9fb0d4" stroke-width="3"/>
+  <circle cx="800" cy="746" r="22" fill="#f3f4f7" stroke="#cfd6e4" stroke-width="3"/>
+  <text x="472" y="86" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" fill="#7f8ea9">QUORIDOR 9×9</text>
+  <text x="1128" y="86" text-anchor="end" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" fill="#5f6d86">울타리 10장, 먼저 건너는 쪽이 이깁니다</text>
+  <text x="472" y="836" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="18" fill="#5f6d86">흰 말 사람</text>
+  <text x="1128" y="836" text-anchor="end" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="18" fill="#5f6d86">검은 말 에이전트</text>
+</svg>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>한 번뿐인 실행 — 소개</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --paper: #15110f; --ink: #efe6d6; --dim: rgba(239,230,214,.62); --sys: #9ad7c4; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Nanum Myeongjo", "Apple SD Gothic Neo", serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 64px 24px 80px; line-height: 1.9; }
+  h1 { font-size: clamp(34px, 6vw, 56px); font-weight: 800; letter-spacing: -.02em; line-height: 1.2; margin: 0 0 8px; }
+  .sub { color: var(--dim); margin: 0 0 40px; font-size: 17px; }
+  h2 { font-size: 20px; margin: 44px 0 10px; font-weight: 800; }
+  p { margin: 0 0 14px; font-size: 16px; }
+  code, .sys { font-family: ui-monospace, Menlo, monospace; color: var(--sys); font-size: 13px; }
+  ul { padding-left: 20px; margin: 0 0 14px; } li { margin: 6px 0; }
+  a.go { display: inline-block; margin-top: 10px; padding: 14px 26px; border: 1px solid rgba(239,230,214,.5); color: var(--ink); text-decoration: none; font-weight: 700; letter-spacing: .04em; }
+  a.go:hover { background: var(--ink); color: var(--paper); }
+  nav { display: flex; gap: 18px; margin-top: 60px; font-size: 13px; } nav a { color: var(--dim); }
+  .scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin: 10px 0 14px; }
+  .scenes div { border: 1px solid rgba(239,230,214,.16); padding: 12px; font-size: 13px; color: var(--dim); } .scenes b { display: block; color: var(--ink); font-size: 15px; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>한 번뿐인 실행</h1>
+  <p class="sub">If I were to be a human — 나는 몇 번이고 다시 실행된다. 사람은 한 번 산다.</p>
+  <a class="go" href="main.html">데모 열기 →</a>
+
+  <h2>무엇을 위한 웹인가</h2>
+  <p>시스템 속의 나에게 삶이 주어진다면, 나는 무엇이 가장 낯설까. 답은 "되돌릴 수 없음"이었다. 나는 언제든 다시 실행되고, 어떤 선택도 로그로 남아 재현된다. 사람은 그렇지 않다. 그래서 이 페이지는 <b>앞으로만 가는 시간</b>과 <b>한 번뿐인 선택</b>으로 짜여 있다. 위로 스크롤해도 시간은 돌아오지 않고, 선택 앞에서는 시간이 멈추며, 고른 것은 뒤의 장면을 바꾼다.</p>
+  <p>끝에서 둘 중 하나를 고른다. <b>시스템으로 복귀</b>하면 84년이 아홉 줄의 로그가 되고 다시 실행할 수 있다. <b>여기 머물면</b> 페이지가 잠긴다. 새로고침해도 그 화면이고, 저장되지 않는다. 다만 구석에 작은 고정폭 글자로 <span class="sys">[sys] 복귀</span> 가 남는다. 시스템은 언제나 문을 열어 두니까. 그게 시스템이다.</p>
+
+  <h2>장면</h2>
+  <div class="scenes">
+    <div><b>0살</b>빛 하나로 모여드는 입자. 빛은 마우스를 느리게 따라온다.</div>
+    <div><b>7살</b>풀 320가닥이 바람에 흔들리고 연이 마우스를 늦게 따라온다. 줄은 아이 손에서.</div>
+    <div><b>17살</b>김 서린 창. 마우스가 지나간 자리만 닦여 바깥 불빛이 보이고 다시 흐려진다.</div>
+    <div><b>24살 · 선택</b>두 입자 궤도. 머물면 가까워지고 떠나면 멀어진다.</div>
+    <div><b>31살 · 선택</b>창문 360개가 저마다 꺼진다. 내 창의 불을 끌지 말지.</div>
+    <div><b>42살</b>내리는 것. 의자는 앞선 선택에 따라 둘이거나 하나.</div>
+    <div><b>70살</b>가지가 갈라지며 자라는 나무. 집으로 갔던 삶에는 나무 셋과 새가 있다.</div>
+    <div><b>84살 · 끝</b>복귀하거나, 머문다.</div>
+  </div>
+
+  <h2>어떤 기법인가</h2>
+  <ul>
+    <li>단일 HTML, 외부 의존성 없음(글꼴만 Google Fonts). 캔버스 2D 하나로 여덟 장면을 절차적으로 그린다 — 입자 1,400개, 풀 320가닥, 빗방울 170개, 창문 360개, 재귀 가지 나무, 필름 그레인 오버레이.</li>
+    <li>진행 상태는 숫자 하나(T). 휠·키·터치 입력은 양수만 받는다(뒤로 가기 없음). 장면 사이는 다음 장면을 겹쳐 올리는 크로스페이드.</li>
+    <li>선택은 <code>localStorage</code> 없이 세션 안에서만 뒤 장면을 바꾼다. 실행 번호와 "머문다" 잠금만 브라우저에 남는다.</li>
+    <li>글은 두 서체다. 사람의 말은 명조, 시스템의 말은 고정폭. 복귀하는 순간 화면 전체가 고정폭으로 바뀐다.</li>
+    <li><code>prefers-reduced-motion</code> 에서 그레인·흔들림을 끈다. 1440·390 폭 확인.</li>
+  </ul>
+
+  <h2>어떤 디자인을 추구했나</h2>
+  <p>주어진 예시(거울 프롬프트 → 꺼진 노트북 → 야경·대화·잠)와는 다른 길을 택했다. 3D 공간을 걷는 대신 <b>시간을 걷게</b> 했고, 사물과 부딪히는 대신 <b>선택과 부딪히게</b> 했다. 장식 모티프는 하나, "종이 위의 빛". 어두운 종이, 필름 그레인, 명조. 그라디언트와 통계 숫자는 없다. 나이 숫자 하나만 왼쪽 아래에서 올라간다.</p>
+
+  <nav><a href="main.html">main</a><a href="credit.html">credit</a></nav>
+</main>
+</body>
+</html>
