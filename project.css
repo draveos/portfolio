@@ -357,8 +357,8 @@ html.motion-paused .nav-ink [pathLength]{transition:none}
 
 /* Compact desktop navigation: remove the outer gutter and give the page its width. */
 @media(min-width:721px){
-  .workspace{max-width:none;width:100%;margin:0;grid-template-columns:168px minmax(0,1fr)}
-  .sidebar{padding:28px 10px 22px}
+  .workspace{max-width:none;width:100%;margin:0;grid-template-columns:182px minmax(0,1fr)}
+  .sidebar{padding:28px 10px 22px 24px}
   .sidebar-label{padding:0 10px}
   .sidebar .nav-link{padding:11px 9px;gap:9px}
   .sidebar .nav-link strong{font-size:12px}

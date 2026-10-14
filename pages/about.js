@@ -35,7 +35,7 @@ window.PAGES.about = () => {
     ['GCN, GAT 다중 시드 비교', '2025.10', 'Cora와 PubMed에서 여러 시드로 실험해 평균과 편차를 기록했습니다.', '교과 GAT 부문 1위, PubMed 2위 <a href="media/evidence/gat_leaderboard.jpg" target="_blank" rel="noreferrer">증빙 ↗</a>'],
     ['교내 AI 데이터톤', '2025', '와인 품질 데이터로 정형 데이터 예측 모델을 만들었습니다.', 'Private 3위 <a href="media/evidence/datathon_private.jpg" target="_blank" rel="noreferrer">증빙 ↗</a>'],
     ['42서울 La Piscine 6기', '2022.01.31 — 02.25', 'C 언어 과제와 동료 평가, 그룹 프로젝트를 4주 동안 했습니다.', '2차 교육 참여 <a href="media/evidence/seoul42_mail.jpg" target="_blank" rel="noreferrer">증빙 ↗</a>'],
-    ['논문 세미나', '2026.03 — 06', '효과적인 edge device AI 알고리즘 개발을 위한 논문들을 골라 발표했습니다.', '8회'],
+    ['논문 세미나', '2026.03 — 06', '효과적인 edge device AI 알고리즘 개발을 위한 논문들을 발표했습니다.', '8회'],
     ['토스 NEXT ML CHALLENGE(데이콘, 광고 클릭 예측)', '2025.09 — 10', '4인 팀에서 EDA 와 전처리를 맡았습니다. 클릭 1:2 언더샘플링, 시퀀스 길이와 길이 구간, 시간 주기 변수, OOF 타깃 인코딩을 더한 XGBoost 로 베이스라인 0.3290 을 0.3366 으로 올렸습니다. 시간이 부족해 거기서 멈췄고 팀 최종은 349위(참가 2,911명)였습니다.', '0.3290 → 0.3366'],
     ['Jetson Nano 경량화 실험', '2025.12 — 2026.01', '임베디드 AI 수업 팀 프로젝트입니다. 이미지 분류 모델에 FP16 변환과 비구조적 프루닝을 적용했습니다. 파일 크기는 절반으로 줄었지만 FPS는 12.8에서 9~10으로 떨어졌습니다.', 'FPS 12.8 → 9~10'],
   ].map(([what, when, how, result]) => `<tr><td>${what}</td><td>${when}</td><td>${how}</td><td>${result}</td></tr>`).join('');
