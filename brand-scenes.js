@@ -29,7 +29,12 @@ export function drawBrandScene(c,w,h,type,t,alpha){
       if(j===0){c.beginPath();c.moveTo(0,-22);c.lineTo(9,-10);c.lineTo(0,3);c.lineTo(-9,-10);c.closePath();c.strokeStyle='#9d91c9';c.stroke();}
       else if(j===1){c.strokeStyle='#98add0';c.strokeRect(-15,-22,30,24);c.beginPath();c.moveTo(-13,0);c.lineTo(-3,-12);c.lineTo(5,-5);c.lineTo(12,-15);c.lineTo(14,0);c.stroke();}
       else if(j===2){c.strokeStyle='#b3a0cc';c.strokeRect(-11,-23,22,28);for(let i=0;i<3;i++){c.beginPath();c.moveTo(-6,-16+i*6);c.lineTo(6,-16+i*6);c.stroke();}}
-      else{c.strokeStyle='#8baaca';for(let i=0;i<3;i++){c.beginPath();c.moveTo(-13+i*13,-17);c.lineTo(0,0);c.stroke();}}c.restore();});
+      else{
+        const nodes=[[-12,-16],[12,-16],[0,3]];
+        c.strokeStyle='#8baaca';c.lineWidth=1.15;
+        c.beginPath();c.moveTo(...nodes[0]);c.lineTo(...nodes[1]);c.lineTo(...nodes[2]);c.closePath();c.stroke();
+        nodes.forEach(([x,y])=>{c.beginPath();c.arc(x,y,3.2,0,Math.PI*2);c.fillStyle='#fff';c.fill();c.strokeStyle='#7f9fc3';c.stroke();});
+      }c.restore();});
   }
   c.restore();
 }

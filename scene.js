@@ -1,5 +1,5 @@
 import * as THREE from './vendor/three.module.js';
-import { createBrandMotion } from './brand-motion.js?v=20261014-motion12';
+import { createBrandMotion } from './brand-motion.js?v=20261014-motion16';
 
 // Three original exploded assemblies. All parts, stars and rays are geometry.
 // The attraction is a timed, damped motion study, not a rigid-body simulation.
@@ -65,6 +65,22 @@ function mount() {
     linePiece(drone,[x,-.1,.45],[x,-.65,.55],.035,0);
     piece(drone,box(.055,.06,1.32),[x,-.65,.05],3);
   }
+  // Navigation is a visual explanation: waypoints, an obstacle, then a traced detour.
+  const navigation=new THREE.Group();navigation.position.y=-1.85;rig.add(navigation);
+  const routePoints=[[-2.7,-1.05,1.65],[-1.5,-1.05,1.3],[-1.15,-1.05,-.35],[.9,-1.05,-.35],[1.4,-1.05,-1.6],[2.6,-1.05,-1.35]].map(p=>vec(...p));
+  const routeSamples=[];
+  for(let i=0;i<routePoints.length-1;i++)for(let j=0;j<24;j++)routeSamples.push(routePoints[i].clone().lerp(routePoints[i+1],j/24));
+  routeSamples.push(routePoints.at(-1).clone());
+  const navRoute=new THREE.Line(new THREE.BufferGeometry().setFromPoints(routeSamples),new THREE.LineBasicMaterial({color:0x408c7a,transparent:true,opacity:0}));navigation.add(navRoute);
+  const navMarkers=routePoints.map((point,i)=>{
+    const marker=new THREE.Group();marker.position.copy(point);
+    const tint=i===routePoints.length-1?0x4869ad:0x408c7a;
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(.20,.025,6,32),new THREE.MeshBasicMaterial({color:tint,transparent:true,opacity:0}));ring.rotation.x=Math.PI/2;marker.add(ring);
+    const pole=new THREE.Mesh(new THREE.CylinderGeometry(.018,.018,.68,6),new THREE.MeshBasicMaterial({color:0x8497b5,transparent:true,opacity:0}));pole.position.y=.34;marker.add(pole);
+    const shape=new THREE.Shape();shape.moveTo(0,0);shape.lineTo(.32,-.035);shape.lineTo(.26,-.13);shape.lineTo(.32,-.24);shape.lineTo(0,-.21);shape.closePath();
+    const flag=new THREE.Mesh(new THREE.ShapeGeometry(shape),new THREE.MeshBasicMaterial({color:tint,transparent:true,opacity:0,side:THREE.DoubleSide}));flag.position.set(.02,.65,0);marker.add(flag);
+    navigation.add(marker);return marker;
+  });
   // Field stars use tiny crosses and points, so they remain visible on white.
   const starPositions=[], crossPositions=[];
   for(let i=0;i<70;i++){
@@ -115,7 +131,19 @@ function mount() {
       p.mesh.material.opacity=opacity;
       p.mesh.material.depthWrite=opacity>.95;
     }
-    const burst=THREE.MathUtils.clamp((t-8.1)/2.2,0,1);
+    navigation.visible=selected===1;
+    const navTime=(paused||reduced.matches)&&elapsed===0?10.4:t;
+    const navProgress=THREE.MathUtils.clamp((navTime-9.05)/.85,0,1);
+    navRoute.geometry.setDrawRange(0,Math.max(0,Math.floor(navProgress*(routeSamples.length-1))+1));
+    navRoute.material.opacity=navProgress>0?opacity:0;
+    navMarkers.forEach((marker,i)=>{
+      const reveal=THREE.MathUtils.clamp((navTime-7.8-i*.18)/.30,0,1);
+      const settled=ease(reveal);
+      marker.visible=reveal>0;
+      marker.position.copy(routePoints[i]);marker.position.y+=(1-settled)*.25;
+      marker.children.forEach(o=>o.material.opacity=opacity*settled);
+    });
+    const burst=THREE.MathUtils.clamp((t-10.05)/2.2,0,1);
     rays.material.opacity=selected===1&&!paused&&!reduced.matches&&burst>0&&burst<1?Math.sin(burst*Math.PI)*.84:0;
     rays.scale.setScalar(.78+burst*1.0);
     stars.rotation.z=t*.006;starCross.rotation.z=t*.006;

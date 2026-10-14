@@ -8,3 +8,8 @@
 
 /* The architecture uses the whole hero viewport, including the former bottom gap. */
 #hero-scene:has(canvas.brand-motion) { bottom:46px; }
+
+/* Scene navigation shares the illustration's horizontal center. */
+.assembly-caption{left:0;right:0;justify-content:center;text-align:center}
+.assembly-select{left:0;right:0;justify-content:center}
+.assembly-select button[data-assembly]{text-align:center}

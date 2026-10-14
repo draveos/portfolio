@@ -1,4 +1,4 @@
-import { drawBrandScene } from './brand-scenes.js?v=20261014-motion11';
+import { drawBrandScene } from './brand-scenes.js?v=20261014-motion16';
 import { drawArchitecture } from './architecture-motion.js?v=20261014-motion12';
 // Original canvas motion studies. No videos, raster assets or remote dependencies.
 export function createBrandMotion(host){
