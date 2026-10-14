@@ -12,3 +12,7 @@
 | (없음) | 42서울 La Piscine | https://42seoul.kr | 2026-10-14 13:01~13:04 KST 시도 | 접속 실패(42seoul.kr 443/80 connection refused, www.42seoul.kr 은 Cloudflare 521). 페이지에서는 글자 워드마크 "42 SEOUL" 로 대체 |
 
 - 42 Seoul: official logo file provided by the author (logo42.svg), saved as 42seoul-logo.svg on 2026-10-14.
+
+- MindForge: logo image provided by the author (마인드.png, official brand asset), trimmed and saved as mindforge-logo2.png on 2026-10-14.
+
+- MindForge: logo image provided by the author (마인드.png, official brand asset), trimmed and saved as mindforge-logo2.png on 2026-10-14.
