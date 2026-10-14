@@ -129,6 +129,7 @@ function home() {
     const notes = visibleNotes().filter(p => p.topic === c.topic);
     const lead = findNote(c.lead) && !findNote(c.lead).draft ? findNote(c.lead) : notes[0];
     const metric = typeof c.metric === 'function' ? c.metric(notes) : c.metric;
+    if (!lead && !notes.length) return '';   // 공개하지 않은 분야(노트 없음)는 장을 그리지 않는다
     const href = lead ? `#note/${esc(lead.id)}` : '#projects';
     return `<article class="chapter" data-kind="${esc(c.kind)}" data-topic="${esc(c.topic)}"><div class="chapter-spine"><span>${esc(c.n)}</span><i></i></div><div class="chapter-main"><span class="eyebrow">${esc(c.en)}</span><h3><a href="${href}">${esc(c.title)} <span aria-hidden="true">↗</span></a></h3><p>${esc(c.desc)}</p><div class="chapter-links">${notes.map(p => `<a href="#note/${esc(p.id)}"><span>${esc(p.tag)}</span><span aria-hidden="true">↗</span></a>`).join('')}</div></div><a class="chapter-preview" href="${href}" aria-label="${esc(c.title)} 기록 열기"><div class="preview-art">${c.thumb ? `<img src="${esc(c.thumb.src)}" alt="${esc(c.thumb.alt || '')}" loading="lazy">` : lead ? thumb(lead) : ''}</div><div class="preview-caption"><strong>${esc(metric)}</strong><span>${esc(c.unit)}</span></div></a></article>`;
   }).join('');
