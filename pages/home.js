@@ -15,7 +15,7 @@ window.PAGES.home = {
   chaptersEyebrow: '2026 / SELECTED WORK',
   chapters: [
     { n: '01', kind: 'exaone', topic: '모델', title: '모델 경량화', desc: '레이어 30개의 양자화 민감도를 측정하고, 일부 모듈을 8비트로 남겨 1.2B 모델을 경량화했습니다. 점수는 0.596에서 0.624로 올랐습니다.', en: 'MODEL OPTIMIZATION', lead: 'exaone', metric: '1.49 → 1.37', unit: 'GB / 모델 크기' },
-    { n: '02', kind: 'drone', topic: '드론', title: '드론 자율주행', desc: '시뮬레이터의 3D 공간을 복셀 지도로 바꾸고, 드론이 지정한 지점까지 장애물을 피해 가도록 구현했습니다. 실행 중 생긴 문제와 운영 방법을 문서로 정리해 인계했습니다.', en: 'ROBOTICS', lead: 'drone', metric: '8', unit: 'WEEKS / 개인 과제' },
+    { n: '02', kind: 'drone', topic: '드론', title: '드론 자율주행', desc: '시뮬레이터의 3D 공간을 복셀 지도로 바꾸고, 드론이 지정한 지점까지 장애물을 피해 가도록 구현했습니다. 실행 중 생긴 문제와 운영 방법을 문서로 정리해 인계했습니다.', en: 'ROBOTICS', lead: 'drone', metric: '5', unit: 'DAYS / 온보딩 커리큘럼' },
     { n: '03', kind: 'office', topic: '에이전트', title: '에이전트 시스템', desc: '협업 시스템 Agent Office, 개인 컴패니언 Flora, 보드게임 실험 환경 Quoridor Arena를 만들었습니다. 단일 에이전트와 협업 시스템에 같은 과제를 맡긴 비교 실험 2편도 함께 정리했습니다.', en: 'AGENT SYSTEMS', lead: 'office', thumb: { src: 'media/office/agents_iso.jpg', alt: '흰 바닥 위 복셀 사무실에서 에이전트들이 뛰어다니는 장면(생성 이미지)' }, metric: notes => String(notes.length), unit: 'NOTES / 구현과 비교' }
   ]
 };
