@@ -346,17 +346,11 @@ details[open]>summary .section-chevron{transform:rotate(90deg)}
   .roadmap-logo-text{font-size:11px;line-height:24px}
 }
 
-/* 사이드바 아이콘: hover 1초 동안 선이 채워지고 끝에 살짝 반짝(4a 2026-10-14) */
-.nav-link svg [pathLength]{stroke-dasharray:1;stroke-dashoffset:0}
-@media(hover:hover) and (pointer:fine){
-  .nav-link:hover svg [pathLength]{animation:nav-draw 1s var(--ease) both}
-  .nav-link:hover svg{filter:none}
-}
-@keyframes nav-draw{
-  0%{stroke-dashoffset:1;stroke:#9aa4b5}
-  70%{stroke-dashoffset:0;stroke:var(--blue)}
-  84%{stroke:#aab8ea;filter:drop-shadow(0 0 1.5px rgba(76,98,196,.55))}
-  100%{stroke-dashoffset:0;stroke:var(--blue);filter:none}
-}
-@media(prefers-reduced-motion:reduce){.nav-link:hover svg [pathLength]{animation:none;stroke:var(--blue)}}
-html.motion-paused .nav-link:hover svg [pathLength]{animation:none;stroke:var(--blue)}
+/* 사이드바 아이콘: hover 하면 선택 색 선이 1초에 걸쳐 그려지고, 떼면 역재생. 선택(active)된 항목은 다 그려진 채 유지(4a 2026-10-14) */
+.nav-icon{position:relative;width:20px;height:20px;flex-shrink:0;display:block}
+.nav-icon svg{position:absolute;inset:0;width:20px;height:20px}
+.nav-ink [pathLength]{stroke:#4b62aa;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1s var(--ease)}
+.nav-link:hover .nav-ink [pathLength],.nav-link.active .nav-ink [pathLength]{stroke-dashoffset:0}
+.nav-link.active svg:not(.nav-ink) [pathLength]{stroke:#4b62aa}
+@media(prefers-reduced-motion:reduce){.nav-ink [pathLength]{transition:none}}
+html.motion-paused .nav-ink [pathLength]{transition:none}
