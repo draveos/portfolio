@@ -69,7 +69,7 @@
     ],
     hero: { src: 'media/quoridor/cover_arena.jpg', alt: '나무 판 위에 울타리가 선 복셀 쿼리도 판과 두 말(생성 이미지)', caption: '쿼리도 판을 복셀로 그린 생성 이미지입니다. 실제 관전 화면은 아래 캡처에 있습니다.' },
     links: [
-      { label: '직접 두어 보기 (Quoridor Agents)', href: 'https://draveos.github.io/Quoridor-Agents/', kind: 'live' },
+      { label: '직접 두어 보기', href: 'https://draveos.github.io/Quoridor-Agents/', kind: 'live' },
       { label: '코드 보기', href: 'https://github.com/draveos/Quoridor-Agents', kind: 'code' }
     ],
     meta: { period: '2026.10.09–10', role: '아레나 제작, 전략 회의 체인 운영과 측정', members: '1인', env: 'Python 3.13, pyquoridor 0.0.5, Three.js' },
