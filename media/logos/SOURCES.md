@@ -10,3 +10,5 @@
 | flora-wordmark.svg | Flora | 직접 그림(공식 로고 없음) | 2026-10-14 13:06 KST | 잎 모양 점 하나와 Flora 글자, 토큰 색 #4c62c4, #202630 |
 | office-wordmark.svg | Agent Office | 직접 그림(공식 로고 없음) | 2026-10-14 13:06 KST | 픽셀 건물 아이콘과 AGENT OFFICE 글자, 토큰 색 |
 | (없음) | 42서울 La Piscine | https://42seoul.kr | 2026-10-14 13:01~13:04 KST 시도 | 접속 실패(42seoul.kr 443/80 connection refused, www.42seoul.kr 은 Cloudflare 521). 페이지에서는 글자 워드마크 "42 SEOUL" 로 대체 |
+
+- 42 Seoul: official logo file provided by the author (logo42.svg), saved as 42seoul-logo.svg on 2026-10-14.
