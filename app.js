@@ -270,7 +270,7 @@ function renderView(h) {
   let view = 'home', crumb = '전체', title = 'Portfolio', isProject = false;
   if (h.startsWith('note/')) {
     const p = findNote(h.slice(5));
-    if (p) { article(p); isProject = true; crumb = `${categoryLabel(p)} / ${p.tag}`; title = `${p.title} / Portfolio`; view = categoryOf(p) === '프로젝트' ? 'projects' : 'experiments'; }
+    if (p) { recordView(p.id); article(p); isProject = true; crumb = `${categoryLabel(p)} / ${p.tag}`; title = `${p.title} / Portfolio`; view = categoryOf(p) === '프로젝트' ? 'projects' : 'experiments'; }
     else { el.innerHTML = '<section class="intro"><div><h1>노트를 찾을 수 없습니다.</h1><p><a href="#projects">프로젝트 목록으로 돌아가기</a></p></div></section>'; crumb = '없는 노트'; title = '노트를 찾을 수 없습니다 / Portfolio'; view = ''; }
   } else if (h === 'about') { about(); view = 'about'; crumb = 'About me'; title = 'About me / Portfolio'; }
   else if (h === 'projects' || h === 'experiments') { const category = h === 'projects' ? '프로젝트' : '실험'; list(category); view = h; crumb = CATEGORY_LABEL[category]; title = `${crumb} / Portfolio`; }
@@ -317,14 +317,26 @@ document.addEventListener('DOMContentLoaded', () => {
   route();
 });
 
-/* ---------- 사이드바 분야 버튼: 홈의 해당 장으로 ---------- */
-document.querySelectorAll('[data-topic]').forEach(b => b.addEventListener('click', () => {
-  const topic = b.dataset.topic;
-  const chapter = document.querySelector(`.chapter[data-topic="${topic}"]`);
-  if ((location.hash === '' || location.hash === '#') && chapter) { chapter.scrollIntoView({ block: 'start' }); return; }
-  pendingChapter = topic;
-  if (location.hash === '' || location.hash === '#') route(); else location.hash = '';
-}));
+/* ---------- 사이드바 최근 본 노트: 이 브라우저에 기록, 클릭 횟수로 순위 ---------- */
+const RECENT_KEY = 'portfolio.recent.v1', RECENT_SHOW = 3, RECENT_KEEP = 12;
+function recentLoad() { try { const v = JSON.parse(localStorage.getItem(RECENT_KEY) || '{}'); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; } }
+function recentSave(v) { try { localStorage.setItem(RECENT_KEY, JSON.stringify(v)); } catch (e) {} }
+function recentRank(v) { return Object.entries(v).filter(([id]) => findNote(id)).sort((a, b) => (b[1].n - a[1].n) || (b[1].t - a[1].t)); }
+function recordView(id) {
+  const v = recentLoad(), cur = v[id] || { n: 0, t: 0 };
+  v[id] = { n: cur.n + 1, t: Date.now() };
+  const ranked = recentRank(v);
+  for (const [dropId] of ranked.slice(RECENT_KEEP)) delete v[dropId];
+  recentSave(v);
+}
+function renderRecent(currentId) {
+  const box = document.querySelector('#sidebar-recent'), ol = document.querySelector('#recent-list');
+  if (!box || !ol) return;
+  const top = recentRank(recentLoad()).slice(0, RECENT_SHOW);
+  box.hidden = top.length === 0;
+  ol.innerHTML = top.map(([id, r]) => { const p = findNote(id); return `<li><a href="#note/${esc(id)}"${id === currentId ? ' class="active" aria-current="page"' : ''}><i class="dot ${topicKey(p)}"></i><span>${esc(p.tag || p.title)}</span><small>${r.n}회</small></a></li>`; }).join('');
+}
+document.addEventListener('portfolio:route', () => { const h = currentHash(); renderRecent(h.startsWith('note/') ? h.slice(5) : ''); });
 
 /* ---------- 검색: 제목, 요약, 분야, 도구, 태그, 핵심 3줄, 60초 요약, 본문 ---------- */
 const dialog = document.querySelector('#search-dialog'), input = document.querySelector('#search-input'), results = document.querySelector('#search-results');
