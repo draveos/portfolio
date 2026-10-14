@@ -267,13 +267,13 @@ function wireGallery(items) {
 /* ---------- 라우터와 뷰 전환 ---------- */
 function renderView(h) {
   runCleanups();
-  let view = 'home', crumb = '전체', title = '김세진의 작업 노트', isProject = false;
+  let view = 'home', crumb = '전체', title = 'Portfolio', isProject = false;
   if (h.startsWith('note/')) {
     const p = findNote(h.slice(5));
-    if (p) { article(p); isProject = true; crumb = `${categoryLabel(p)} / ${p.tag}`; title = `${p.title} / 김세진`; view = categoryOf(p) === '프로젝트' ? 'projects' : 'experiments'; }
-    else { el.innerHTML = '<section class="intro"><div><h1>노트를 찾을 수 없습니다.</h1><p><a href="#projects">프로젝트 목록으로 돌아가기</a></p></div></section>'; crumb = '없는 노트'; title = '노트를 찾을 수 없습니다 / 김세진'; view = ''; }
-  } else if (h === 'about') { about(); view = 'about'; crumb = 'About me'; title = 'About me / 김세진'; }
-  else if (h === 'projects' || h === 'experiments') { const category = h === 'projects' ? '프로젝트' : '실험'; list(category); view = h; crumb = CATEGORY_LABEL[category]; title = `${crumb} / 김세진`; }
+    if (p) { article(p); isProject = true; crumb = `${categoryLabel(p)} / ${p.tag}`; title = `${p.title} / Portfolio`; view = categoryOf(p) === '프로젝트' ? 'projects' : 'experiments'; }
+    else { el.innerHTML = '<section class="intro"><div><h1>노트를 찾을 수 없습니다.</h1><p><a href="#projects">프로젝트 목록으로 돌아가기</a></p></div></section>'; crumb = '없는 노트'; title = '노트를 찾을 수 없습니다 / Portfolio'; view = ''; }
+  } else if (h === 'about') { about(); view = 'about'; crumb = 'About me'; title = 'About me / Portfolio'; }
+  else if (h === 'projects' || h === 'experiments') { const category = h === 'projects' ? '프로젝트' : '실험'; list(category); view = h; crumb = CATEGORY_LABEL[category]; title = `${crumb} / Portfolio`; }
   else { home(); }
   document.body.classList.toggle('project-view', isProject);
   document.body.classList.remove('post-view');
