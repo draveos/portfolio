@@ -22,7 +22,8 @@
     ],
     hero: { src: 'media/voxel/cover_gen.jpg', alt: '명세서 더미에서 다섯 제작 방식으로 같은 탑이 세워지는 장면(생성 이미지)', caption: '같은 명세를 다섯 시스템에 준 실험을 그린 생성 이미지입니다. 실제 산출물은 아래 캡처에 있습니다.' },
     links: [
-      { label: 'Claude 산출물 열어 보기', href: 'demo/voxel/claude/index.html', kind: 'live' }
+      { label: 'Claude 산출물 열어 보기', href: 'demo/voxel/claude/index.html', kind: 'live' },
+      { label: 'VoxelBench 원본 사양', href: 'https://github.com/spark00000/VoxelBench', kind: 'doc' }
     ],
     meta: { period: '2026.10.13', role: '실험 진행과 결과 정리', members: '1인', env: 'Chromium 1440×900' },
     points: {
@@ -38,7 +39,7 @@
       'Claude <b class="num">3분</b>, ultra <b class="num">35분</b>, Office <b class="num">18분</b>(회의 포함)'
     ],
     sections: [
-      { id: 'setup', title: '실험 조건', html: `<table><thead><tr><th>항목</th><th>내용</th></tr></thead><tbody><tr><td>과제</td><td>VoxelBench REPRO-001. Three.js 복셀 탑 정원 한 장면을 웹 페이지로 만듭니다.</td></tr><tr><td>사양</td><td>220줄(12,430바이트). A부터 T까지 20개 절이 카메라, 조명, 팔레트, 좌표, 애니메이션 수치를 고정합니다. 산출물은 index.html 과 server.js 두 파일뿐이고 npm 과 package.json 은 금지입니다.</td></tr><tr><td>수용 기준</td><td>사양의 수용 기준 5항목을 세분화해 심사표 7항목으로 정리했습니다. 기본 시점을 탑과 입자로 나누고 독립 재현을 더했습니다.</td></tr><tr><td>참가</td><td>5팀. 설정은 결과 표에 적었습니다.</td></tr><tr><td>심사</td><td>2026-10-13, Chromium 1440×900, 산출물마다 1회 확인. 심사자는 Claude 단독 세션이라 참가자이기도 합니다.</td></tr><tr><td>측정 한계</td><td>반복 없음. 시간은 기록이 있는 팀만 적고, 비용과 창의성은 비교하지 않았습니다.</td></tr></tbody></table>` },
+      { id: 'setup', title: '실험 조건', html: `<table><thead><tr><th>항목</th><th>내용</th></tr></thead><tbody><tr><td>과제</td><td>VoxelBench REPRO-001. Three.js 복셀 탑 정원(Voxel Pagoda Garden) 한 장면을 웹 페이지로 만듭니다. 사양과 과제는 spark00000 님이 공개한 <a href="https://github.com/spark00000/VoxelBench" target="_blank" rel="noreferrer">VoxelBench ↗</a> 의 것이고, 이 글은 그 사양으로 다섯 팀을 돌린 제 실험 기록입니다.</td></tr><tr><td>사양</td><td>220줄(12,430바이트). A부터 T까지 20개 절이 카메라, 조명, 팔레트, 좌표, 애니메이션 수치를 고정합니다. 산출물은 index.html 과 server.js 두 파일뿐이고 npm 과 package.json 은 금지입니다.</td></tr><tr><td>수용 기준</td><td>사양의 수용 기준 5항목을 세분화해 심사표 7항목으로 정리했습니다. 기본 시점을 탑과 입자로 나누고 독립 재현을 더했습니다.</td></tr><tr><td>참가</td><td>5팀. 설정은 결과 표에 적었습니다.</td></tr><tr><td>심사</td><td>2026-10-13, Chromium 1440×900, 산출물마다 1회 확인. 심사자는 Claude 단독 세션이라 참가자이기도 합니다.</td></tr><tr><td>측정 한계</td><td>반복 없음. 시간은 기록이 있는 팀만 적고, 비용과 창의성은 비교하지 않았습니다.</td></tr></tbody></table>` },
       { id: 'results', title: '결과', html: `<table><thead><tr><th>참가</th><th>설정</th><th>소요(기록)</th><th>체크리스트</th></tr></thead><tbody><tr><td>Claude</td><td>단독, 실행 가능</td><td>3분</td><td>7 / 7</td></tr><tr><td>Claude ultra</td><td>별도 세션</td><td>약 35분</td><td>7 / 7</td></tr><tr><td>Codex</td><td>CLI</td><td>기록 없음</td><td>7 / 7</td></tr><tr><td>Gemini</td><td>웹, 실행 도구 없음</td><td>기록 없음</td><td>7 / 7</td></tr><tr><td>Agent Office</td><td>coding 워크플로, Bash 없음</td><td>약 18분(회의 포함)</td><td>6 / 7</td></tr></tbody></table>${comparison(['voxelbench_claude.png', 'voxelbench_gemini.png', 'voxelbench_codex.png', 'voxelbench_office.png'], ['Claude', 'Gemini', 'Codex', 'Agent Office'])}<p>네 장의 기본 시점이 거의 같습니다. 사양이 카메라 위치와 좌표를 숫자로 고정했기 때문입니다. Claude ultra 는 캡처를 남기지 않았습니다.</p><p>Office 는 꽃잎이 분홍색이 아니라 검은 점으로 보였습니다(ACC-005). 산출물도 두 파일이 아니라 package.json 을 포함한 세 파일이었습니다. Office 는 보고서에 실행 확인 0회를 스스로 적었습니다. 반면 Gemini 는 실행 도구 없이도 7 / 7 을 냈고, 틀렸을 가능성이 있는 곳 3군데를 함께 보고했습니다.</p>` },
       {
         id: 'open', title: '직접 열어 보기',

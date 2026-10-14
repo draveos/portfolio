@@ -10,3 +10,4 @@
 | CesiumJS 1.130 (CDN) and ArcGIS / OpenStreetMap imagery | drone flight demo (demo/drone) | Apache 2.0; imagery per provider terms, attribution shown in the viewer |
 | pyquoridor rules (ported to JS) | Quoridor demo | MIT (see demo/quoridor/LICENSE-pyquoridor.txt) |
 | Hackathon entries (demo/vfx, demo/voxel) | comparison experiments | Generated for the author's own experiments; Codex, Gemini and Claude outputs are shown as experiment artifacts |
+| VoxelBench REPRO-001 specification | comparison experiment "voxel" | Task prompt and acceptance criteria by spark00000, https://github.com/spark00000/VoxelBench (no license stated; used as the experiment task, quoted only by structure). Outputs under demo/voxel are this site author's agents' results, not the original repository's files |
