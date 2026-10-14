@@ -345,3 +345,18 @@ details[open]>summary .section-chevron{transform:rotate(90deg)}
   .roadmap-logo img{height:calc(var(--logo-h,32px) * .75);max-width:150px}
   .roadmap-logo-text{font-size:11px;line-height:24px}
 }
+
+/* 사이드바 아이콘: hover 1초 동안 선이 채워지고 끝에 살짝 반짝(4a 2026-10-14) */
+.nav-link svg [pathLength]{stroke-dasharray:1;stroke-dashoffset:0}
+@media(hover:hover) and (pointer:fine){
+  .nav-link:hover svg [pathLength]{animation:nav-draw 1s var(--ease) both}
+  .nav-link:hover svg{filter:none}
+}
+@keyframes nav-draw{
+  0%{stroke-dashoffset:1;stroke:#9aa4b5}
+  70%{stroke-dashoffset:0;stroke:var(--blue)}
+  84%{stroke:#aab8ea;filter:drop-shadow(0 0 1.5px rgba(76,98,196,.55))}
+  100%{stroke-dashoffset:0;stroke:var(--blue);filter:none}
+}
+@media(prefers-reduced-motion:reduce){.nav-link:hover svg [pathLength]{animation:none;stroke:var(--blue)}}
+html.motion-paused .nav-link:hover svg [pathLength]{animation:none;stroke:var(--blue)}
