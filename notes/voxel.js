@@ -23,7 +23,7 @@
     hero: { src: 'media/voxel/cover_gen.jpg', alt: '명세서 더미에서 다섯 제작 방식으로 같은 탑이 세워지는 장면(생성 이미지)', caption: '같은 명세를 다섯 시스템에 준 실험을 그린 생성 이미지입니다. 실제 산출물은 아래 캡처에 있습니다.' },
     links: [
       { label: 'Claude 산출물 열어 보기', href: 'demo/voxel/claude/index.html', kind: 'live' },
-      { label: 'VoxelBench 원본 사양', href: 'https://github.com/spark00000/VoxelBench', kind: 'doc' }
+      { label: 'Credits to spark00000 / VoxelBench', href: 'https://github.com/spark00000/VoxelBench', kind: 'doc' }
     ],
     meta: { period: '2026.10.13', role: '실험 진행과 결과 정리', members: '1인', env: 'Chromium 1440×900' },
     points: {
