@@ -18,7 +18,7 @@ window.PAGES.about = () => {
   // 시간순. link 는 [해시, 라벨], ext 는 [외부 주소, 라벨]. logo 는 { src, w, h, height } 또는 { text }(로고를 못 받은 경우 글자 워드마크).
   const roadmap = [
     { time: '2021.03 — 2027.02', kind: 'EDUCATION', title: '중앙대학교 AI학과', text: '2027년 2월 졸업 예정입니다.', logo: { src: 'media/logos/cau-logo.png', w: 213, h: 54, height: 34 } },
-    { time: '2022.01 — 2022.02', kind: 'PEER LEARNING', title: '42서울 La Piscine', text: '6기 2차 교육에 참여해 C 언어 과제와 동료 평가, 그룹 프로젝트를 했습니다.', small: '2022.01.31 — 02.25, 4주', logo: { src: 'media/logos/42seoul-logo.svg', alt: '42 Seoul' } },
+    { time: '2022.01 — 2022.02', kind: 'PEER LEARNING', title: '42서울 La Piscine', text: '6기 2차 교육에 참여해 C 언어 과제와 동료 평가, 그룹 프로젝트를 했습니다.', small: '2022.01.31 — 02.25, 4주', logo: { src: 'media/logos/42seoul-logo.svg', w: 2392, h: 1383, height: 36 } },
     { time: '2026.01 — 2026.02', kind: 'MODEL OPTIMIZATION', title: 'LG Aimers 8기', text: '2인 팀에서 양자화 전략과 실험을 맡았습니다. 레이어별 민감도를 측정하고 일부 모듈을 8비트로 보호하는 혼합 정밀도 전략을 적용해, 팀 리더보드 72위를 기록했습니다.', link: ['#note/exaone', 'EXAONE 실험 기록'], logo: { src: 'media/logos/lgaimers-logo.svg', w: 699, h: 111, height: 28 } },
     { time: '2026.03 — 2026.08', kind: 'RESEARCH INTERNSHIP / 6 MONTHS', title: '마인드포지 연구소 인턴연구원', text: '드론 자율주행 파이프라인과 운영 UI를 구현하고, 후임을 위한 인수인계 자료를 정리했습니다.', link: ['#note/drone', '8주 개인 과제 보기'], ext: ['https://mindforge.kr/', '회사 소개'], cls: 'internship', logo: { src: 'media/mindforge-logo.png', w: 1068, h: 312, height: 32 } },
     { time: '2026.04 — 2026.08', kind: 'INDEPENDENT PROJECT', title: 'Flora', text: '대화를 기억하고 먼저 말을 거는 개인 컴패니언을 만들었습니다. 웹, 터미널, 메뉴바 앱이 같은 백엔드에 연결됩니다.', small: '커밋 295', link: ['#note/flora', '설계 기록 보기'], logo: { src: 'media/logos/flora-wordmark.svg', w: 92, h: 32, height: 32 } },
