@@ -188,7 +188,7 @@
       },
       {
         id: 'w8', title: '어디에 8비트를 남겼나',
-        html: '<p><code>down_proj</code> 와 <code>o_proj</code> 는 블록의 출력을 residual 에 더하는 자리입니다. 여기서 생긴 오차는 다음 레이어로 그대로 누적되므로 전 레이어에서 8비트로 두었습니다. <code>k_proj</code> 와 <code>v_proj</code>, <code>gate_proj</code> 는 자체 평가기로 재 봤을 때 4비트에서도 응답 품질과 속도 저하가 작아 보호에서 뺐습니다. <code>gate_proj</code> 까지 8비트로 보호한 제출은 평가 서버의 vLLM 초기화에서 오류가 나 리더보드로는 확인하지 못했습니다.</p>'
+        html: '<p><code>down_proj</code> 와 <code>o_proj</code> 는 블록의 출력을 residual 에 더하는 자리입니다. 여기서 생긴 오차는 다음 레이어로 그대로 누적되므로 전 레이어에서 8비트로 두었습니다. <code>k_proj</code> 와 <code>v_proj</code>, <code>gate_proj</code> 는 자체 평가기로 재 봤을 때 4비트에서도 응답 품질과 속도 저하가 작아 보호에서 뺐습니다. <code>gate_proj</code> 까지 8비트로 보호한 제출은 평가 서버의 vLLM 초기화에서 오류가 나 리더보드로는 확인하지 못했습니다. <code>q_proj</code> 전 레이어와 <code>up_proj</code> 0–11번을 더 보호하는 설정은 스크립트에 변수로만 남아 있고 최고점 제출본의 양자화 셀에는 들어가지 않아 두 모듈은 4비트입니다. 이 사실은 제출 뒤 2월 21일에 파악했습니다.</p>'
           + fig(recipeChart(), '진한 색은 W8, 연한 색은 W4 입니다. embed 와 lm_head 는 격자에서 제외했습니다.')
           + '<p>GPTQ 블록 크기는 W8 128, W4 32 이고 dampening 은 0.01 입니다(0.05는 안정화 효과가 과하다고 판단해 제외했습니다). 캘리브레이션은 MANTA-1M 샘플 512개입니다(최고점 노트북 기준. 다른 시도에서는 256과 312도 썼습니다). 512개 혼합 캘리브레이션은 2월 20일 제출본에 쓰였고 평가 오류가 났습니다.</p>'
       },
