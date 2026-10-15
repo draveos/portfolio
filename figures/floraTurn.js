@@ -6,7 +6,7 @@ const bx=i=>45+i*(bw+gap);
 let s=K.open(1200,560,{label:'Flora 기억 회수 상태 반영 응답 생성 검증 저장의 턴 흐름',marker:M,rx:20});
 s+='<g class="fg-w">'+K.head('한 턴이 응답으로 이어지는 과정','대화 처리 순서. 각 단계의 진행 상황을 SSE 이벤트로 전달합니다',{size:22,subSize:15,x:40,y:48,gap:26});
 steps.forEach(([n,t],i)=>{s+=K.node(bx(i),by,bw,bh,{n,t,hl:i===3,size:20,br:13});if(i<4)s+=K.path(`M${bx(i)+bw} ${by+bh/2}H${bx(i+1)-2}`,{marker:M});});
-[['기억과 프로필',0],['상태 설명',1],['초안',2],['최종 답',3]].forEach(([t,i])=>s+=K.pill(bx(i)+bw+gap/2,by+bh/2-20,t,{size:14.5,w:500,color:C.muted,a:'middle'}));
+[['기억과 프로필',0],['상태 설명',1],['초안',2],['최종 답',3]].forEach(([t,i])=>s+=K.pill(bx(i)+bw+gap/2,by+bh/2+8,t,{size:13.5,w:500,color:C.muted,a:'middle'}));
 s+=K.path(`M${bx(3)+bw/2} ${by}V126H${(bx(2)+bx(3)+bw)/2+112}`,{dash:'6 5'})+K.path(`M${(bx(2)+bx(3)+bw)/2-112} 126H${bx(2)+bw/2}V${by-2}`,{marker:M,dash:'6 5'})+K.pill((bx(2)+bx(3)+bw)/2,126,'검증 실패 시 한 번 재생성',{size:14.5,w:500,color:C.muted,a:'middle'});
 s+=K.node(bx(4),330,bw,70,{t:'승격 (비동기)',size:16,dash:'6 5',stroke:C.gray,color:C.muted})+K.path(`M${bx(4)+bw/2} ${by+bh}V328`,{marker:M,dash:'6 5'})+K.pill(bx(4)+bw/2+10,300,'요약 대상 전달',{size:14.5,w:500,color:C.muted});
 s+=K.node(bx(0),330,bw,70,{t:'선톡 게이트',size:16,dash:'6 5',stroke:C.gray,color:C.muted})+K.path(`M${bx(0)+bw/2} 330V${by+bh+2}`,{marker:M,dash:'6 5'})+K.pill(bx(0)+bw/2+10,300,'먼저 말을 걸지 결정',{size:14.5,w:500,color:C.muted});

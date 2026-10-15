@@ -18,12 +18,12 @@
     let s = K.open(1200, 600, { label: 'Agent Office 운영 루프. 프롬프트, 분류, 회의 5단계, 하네스 검증, 기억 적재, 사람 평점, 회고와 개선, 다음 회의가 고리로 이어집니다', title: 'Agent Office 운영 루프', marker: MK, rx: 20 });
     s += '<g class="fg-w">' + K.head('Agent Office 운영 루프', '요청, 회의, 검증, 평가를 연결한 운영 흐름. 강조한 두 단계에서 문제 3개를 발견했습니다', { size: 22, subSize: 15, x: 40, y: 48, gap: 26 });
     boxes.forEach(b => { s += K.node(b.x, b.y, W, H, { n: b.n, t: b.t, hl: b.tint, size: 20, br: 13 }); s += K.text(b.x + W / 2, b.y < 300 ? b.y - 14 : b.y + H + 24, b.s, { size: 15, fill: C.muted, a: 'middle' }); });
-    const E = (d, label, lx, ly, dashed) => K.path(d, { marker: MK, sw: 1.5, dash: dashed ? '6 5' : undefined }) + (label ? K.pill(lx, ly, label, { size: 14.5, w: 500, color: C.muted }) : '');
+    const E = (d, label, lx, ly, dashed, mid) => K.path(d, { marker: MK, sw: 1.5, dash: dashed ? '6 5' : undefined }) + (label ? K.pill(lx, ly, label, { size: 13.5, w: 500, color: C.muted, a: mid ? 'middle' : undefined }) : '');
     const mid = (b1, b2) => (b1.x + W + b2.x) / 2;
     const [b1, b2, b3, b4, b5, b6, b7, b8] = boxes, cy1 = b1.y + H / 2, cy2 = b5.y + H / 2;
-    s += E(`M${b1.x + W} ${cy1}H${b2.x - 2}`, '큐 적재', mid(b1, b2) - 28, cy1 - 20) + E(`M${b2.x + W} ${cy1}H${b3.x - 2}`, '단계표', mid(b2, b3) - 26, cy1 - 20) + E(`M${b3.x + W} ${cy1}H${b4.x - 2}`, '산출물', mid(b3, b4) - 26, cy1 - 20);
+    s += E(`M${b1.x + W} ${cy1}H${b2.x - 2}`, '큐 적재', mid(b1, b2), cy1 + 8, false, true) + E(`M${b2.x + W} ${cy1}H${b3.x - 2}`, '단계표', mid(b2, b3), cy1 + 8, false, true) + E(`M${b3.x + W} ${cy1}H${b4.x - 2}`, '산출물', mid(b3, b4), cy1 + 8, false, true);
     s += E(`M${b4.x + W / 2} ${b4.y + H}V${b5.y - 2}`, '회의 종료', b4.x + W / 2 + 10, 256) + E(`M${b3.x + W / 2} ${b3.y + H}V${b6.y - 2}`, '등급과 촬영본', b3.x + W / 2 + 10, 256);
-    s += E(`M${b6.x} ${cy2}H${b7.x + W + 2}`, '하루치 평점', mid(b7, b6) - 42, cy2 - 20) + E(`M${b7.x} ${cy2}H${b8.x + W + 2}`, '개선 반영', mid(b8, b7) - 34, cy2 - 20);
+    s += E(`M${b6.x} ${cy2}H${b7.x + W + 2}`, '하루치 평점', mid(b7, b6), cy2 + 8, false, true) + E(`M${b7.x} ${cy2}H${b8.x + W + 2}`, '개선 반영', mid(b8, b7), cy2 + 8, false, true);
     s += E(`M${b8.x + W / 2} ${b8.y}V${b1.y + H + 2}`, '2회차', b8.x + W / 2 + 10, 256);
     s += K.path(`M${b5.x + W} ${cy2 + 14}H1182V548H${600 + 150}`, { sw: 1.5, dash: '6 5' }) + E(`M${600 - 150} 548H18V${cy2 + 14}H${b8.x - 2}`, '회상: 기억에서 관련 내용을 다음 회의로', 600 - 128, 548, true);
     s += '</g>';
