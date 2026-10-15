@@ -248,7 +248,7 @@ details[open]>summary .section-chevron{transform:rotate(90deg)}
 }
 
 /* 홈: 세 장을 가로 카드 3장으로(4a 2026-10-14) */
-.chapters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:stretch}
+.chapters{display:grid;grid-template-columns:repeat(var(--chapter-columns,3),minmax(0,1fr));gap:22px;align-items:stretch}
 .chapters .chapter-index-heading{grid-column:1/-1}
 .chapters .chapter{display:flex;flex-direction:column;gap:0;padding:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;transition:transform .2s var(--ease),box-shadow .2s,border-color .2s}
 .chapters .chapter-spine{display:none}

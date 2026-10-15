@@ -17,7 +17,7 @@
     tag: '짧은 브리프 실험',
     hero: { src: 'media/human/cover_gen.jpg', alt: '콘셉트 조각들이 다섯 제작 방식을 거쳐 서로 다른 작품이 되는 장면(생성 이미지)', caption: '한 단락 주제를 다섯 방식에 준 실험을 그린 생성 이미지입니다. 실제 작품은 아래 캡처와 버튼에 있습니다.' },
     shots: [
-      { src: 'media/human/sontae_cover.jpg', alt: '손때 첫 화면. 회벽 질감 위에 제목과 소개 글', caption: '1등 「손때」의 첫 화면(8.5).' },
+      { src: 'media/human/sontae_cover.jpg', alt: '손때 첫 화면. 회벽 질감 위에 제목과 소개 글', caption: '이번 개인 비교에서 가장 높은 사용자 점수를 받은 「손때」(8.5)의 첫 화면입니다.' },
       { src: 'media/shots/vfx_codex.jpg', alt: 'Codex 출품작 화면', caption: 'Codex 출품작(8.4).' },
       { src: 'media/human/claude_cover.jpg', alt: 'Claude 단독 「한 번뿐인 실행」의 첫 장면, 별빛 궤도 위의 문장', caption: 'Claude 단독 「한 번뿐인 실행」(8.1). 별빛 궤도 위에 한 줄씩 문장이 쌓입니다.' },
       { src: 'media/shots/vfx_office.png', alt: 'Agent Office 출품작 「말로만 본 창밖」 화면', caption: 'Agent Office 「말로만 본 창밖」(7.6).' },
@@ -33,22 +33,22 @@
       '브리프 <b class="num">1,562자</b>, 과제 원문은 한 단락, 제작 상한 <b class="num">1시간</b>',
       '참가 <b class="num">5팀</b>, 심사 기준 <b class="num">8개</b> 사전 공개, 심사자 1인 10점 만점',
       '사용자 점수 <b class="num">8.5 / 8.4 / 8.1 / 7.6</b>, Gemini 논외',
-      '1등 손때는 서브에이전트 <b class="num">10개</b>에 콘셉트 패널 <b class="num">4개</b>, <b class="num">49분</b>',
+      '손때는 제작과 검수 에이전트 <b class="num">10개</b>, 콘셉트 검토 <b class="num">4개</b>, <b class="num">49분</b>',
       '출발 시각이 <b class="num">20:12</b> 부터 <b class="num">21:03</b> 까지 달라 같은 조건의 순위 비교는 어렵습니다'
     ],
     sections: [
       {
         id: 'setup', title: '조건',
-        html: `<p>주제 한 단락과 감점용 레퍼런스 한 단락만 주고, 세 페이지(index, main, credit)를 만들게 했습니다. 심사는 main 만 봤습니다.</p><table><thead><tr><th>항목</th><th>값</th></tr></thead><tbody><tr><td>과제</td><td>"If I were to be a human" 웹 작품. 제작 상한 1시간, 회의 시간은 제외</td></tr><tr><td>입력</td><td>브리프 1,562자. 참고 자료 없음, 검색 허용</td></tr><tr><td>규칙</td><td>외부 이미지 허용, 이미지 생성 API 금지, 1440 과 390 폭 넘침 0</td></tr><tr><td>심사</td><td>사용자 1인, 10점 만점. 기준 8개 사전 공개: ${CRITERIA}</td></tr><tr><td>참가</td><td>Claude 단독, Codex CLI, Agent Office 디자인팀, Gemini(웹), 손때(별도 Claude 세션과 서브에이전트)</td></tr><tr><td>출발과 소요</td><td>Claude 단독 20:12 부터 13분, 뒤에 6분 보강. Codex 20:12 부터 42분. Office 20:18 부터 약 25분. Gemini 미상. 손때 21:03 부터 49분</td></tr></tbody></table><p>세 팀이 먼저 작업했고 출발 시각에도 차이가 있었습니다. 손때는 다른 결과를 본 뒤 출발했고, Claude 단독은 제 피드백을 받은 뒤 보강했습니다.</p>`
+        html: `<p>주제와 공통 규칙, 유사한 구현을 피하도록 제시한 예시를 전달했습니다. 소개(index), 본편(main), 크레딧(credit) 세 화면을 만들게 했습니다. 심사는 main 만 봤습니다.</p><table><thead><tr><th>항목</th><th>값</th></tr></thead><tbody><tr><td>과제</td><td>"If I were to be a human" 웹 작품. 제작 상한 1시간, 회의 시간은 제외</td></tr><tr><td>입력</td><td>공통 규칙과 설명용 예시를 포함한 브리프 1,562자. 별도 이미지 에셋은 제공하지 않았고 검색은 허용</td></tr><tr><td>규칙</td><td>외부 이미지 허용, 이미지 생성 API 금지, 1440 과 390 폭 넘침 0</td></tr><tr><td>심사</td><td>사용자 1인, 10점 만점. 기준 8개 사전 공개: ${CRITERIA}</td></tr><tr><td>참가</td><td>Claude 단독, Codex CLI, Agent Office 디자인팀, Gemini(웹), 손때(별도 Claude 세션과 서브에이전트)</td></tr><tr><td>출발과 소요</td><td>Claude 단독 20:12 부터 13분, 뒤에 6분 보강. Codex 20:12 부터 42분. Office 20:18 부터 약 25분. Gemini 미상. 손때 21:03 부터 49분</td></tr></tbody></table><p>세 팀이 먼저 작업했고 출발 시각에도 차이가 있었습니다. 손때는 다른 결과를 본 뒤 출발했고, Claude 단독은 제 피드백을 받은 뒤 보강했습니다.</p>`
       },
       {
         id: 'result', title: '결과',
-        html: `<table><thead><tr><th>출품작</th><th>제작 방식</th><th>사용자 점수</th><th>상호 심사(참고)</th></tr></thead><tbody><tr><td>손때</td><td>Claude 세션 하나, 서브에이전트 병렬</td><td>8.5</td><td>8.7</td></tr><tr><td>A life not yet lived</td><td>Codex CLI 단독</td><td>8.4</td><td>8.3</td></tr><tr><td>한 번뿐인 실행</td><td>Claude 단독</td><td>8.1</td><td>자기 출품작, 제외</td></tr><tr><td>말로만 본 창밖</td><td>Agent Office 디자인팀</td><td>7.6</td><td>7.4</td></tr><tr><td>Echoes of Sentience</td><td>Gemini 웹</td><td>논외</td><td>보류</td></tr></tbody></table><p>상호 심사 열은 Claude 단독 세션이 다른 팀을 채점한 값이라 참가자 겸 심사자의 참고치입니다. Gemini 는 index 와 credit 없이 main 만 내서 두 심사 모두 논외로 두었습니다.</p>${comparison(['vfx_sontae.png', 'vfx_codex.jpg', 'vfx_claude_tree.jpg', 'vfx_office.png'], ['손때(Claude 협업)', 'Codex', 'Claude 단독', 'Agent Office'])}`
+        html: `<table><thead><tr><th>출품작</th><th>제작 방식</th><th>사용자 점수</th><th>Claude 세션 평가(참고)</th></tr></thead><tbody><tr><td>손때</td><td>Claude 세션 하나, 서브에이전트 병렬</td><td>8.5</td><td>8.7</td></tr><tr><td>A life not yet lived</td><td>Codex CLI 단독</td><td>8.4</td><td>8.3</td></tr><tr><td>한 번뿐인 실행</td><td>Claude 단독</td><td>8.1</td><td>자기 출품작, 제외</td></tr><tr><td>말로만 본 창밖</td><td>Agent Office 디자인팀</td><td>7.6</td><td>7.4</td></tr><tr><td>Echoes of Sentience</td><td>Gemini 웹</td><td>논외</td><td>보류</td></tr></tbody></table><p>참고 점수는 참가작을 만든 Claude 단독 세션이 다른 팀을 평가한 값입니다. 여러 팀의 상호 평가를 합산한 점수는 아닙니다.</p><p>Gemini는 당시 심사에서 소개와 크레딧 미제출로 분류돼 점수에서 제외됐습니다. 하지만 제출 HTML에는 INDEX와 CREDIT 화면이 있어, 이 제외 판정은 재검토가 필요합니다. 위 표에는 당시 기록을 유지했습니다.</p>${comparison(['vfx_sontae.png', 'vfx_codex.jpg', 'vfx_claude_tree.jpg', 'vfx_office.png'], ['손때(Claude 협업)', 'Codex', 'Claude 단독', 'Agent Office'])}`
       },
       {
         id: 'open', title: '직접 열어 보기',
-        html: '<p>다섯 작품을 그대로 옮겨 두었습니다. 새 창으로 열리고, 글꼴 외에는 외부 의존이 없습니다.</p>'
-          + '<p class="link-row"><a href="demo/vfx/sontae/main.html" target="_blank" rel="noreferrer">손때 (Fable 5.1, 서브에이전트 14) ↗</a> <a href="demo/vfx/codex/main.html" target="_blank" rel="noreferrer">Codex (GPT 6.1 Astra) ↗</a> <a href="demo/vfx/claude/main.html" target="_blank" rel="noreferrer">Fable 5.1 단독 ↗</a> <a href="demo/vfx/office/main.html" target="_blank" rel="noreferrer">Agent Office (Fable 5.1 세션) ↗</a> <a href="demo/vfx/gemini/index.html" target="_blank" rel="noreferrer">Gemini 3.1 Pro ↗</a></p>'
+        html: '<p>다섯 작품을 웹에서 열 수 있도록 옮겨 두었습니다. 새 창으로 열리며, 일부 작품은 글꼴과 라이브러리를 CDN에서 불러오므로 인터넷 연결이 필요합니다.</p>'
+          + '<p class="link-row"><a href="demo/vfx/sontae/main.html" target="_blank" rel="noreferrer">손때 (Fable 5.1, 제작과 검수 10 + 콘셉트 검토 4) ↗</a> <a href="demo/vfx/codex/main.html" target="_blank" rel="noreferrer">Codex (GPT 6.1 Astra) ↗</a> <a href="demo/vfx/claude/main.html" target="_blank" rel="noreferrer">Fable 5.1 단독 ↗</a> <a href="demo/vfx/office/main.html" target="_blank" rel="noreferrer">Agent Office (Fable 5.1 세션) ↗</a> <a href="demo/vfx/gemini/index.html" target="_blank" rel="noreferrer">Gemini 3.1 Pro ↗</a></p>'
       },
       {
         id: 'why', title: '손때는 왜 높았나',
@@ -56,10 +56,10 @@
       },
       {
         id: 'boundary', title: '자세한 명세를 준 실험과 비교',
-        html: `<p>다음 날 220줄 명세를 다섯 시스템(손때 대신 Claude ultra 가 들어간 Claude 둘, Codex, Gemini, Agent Office)에 준 <a href="#note/voxel">실험 2</a>에서는 단일 에이전트 넷이 실행 도구 유무와 관계없이 수용 기준을 다 채웠습니다. 이번 두 실험에서는 상세 명세를 받은 단일 에이전트들이 기준을 충족했고, 짧은 브리프에서는 검수와 수정을 거친 작품이 가장 높은 점수를 받았습니다. 다만 Agent Office는 두 실험 모두 다른 참가팀보다 낮은 평가를 받았습니다. 협업 여부만으로 결과를 설명하기는 어려우며, 검수 방식의 효과도 같은 조건에서 다시 비교할 필요가 있습니다.</p>`
+        html: `<p>다음 날 220줄 명세를 다섯 시스템(손때 대신 Claude ultra 가 들어간 Claude 둘, Codex, Gemini, Agent Office)에 준 <a href="#note/voxel">실험 2</a>에서는 단일 에이전트 네 설정이 실행 도구 유무와 관계없이 이번 체크리스트 7항목을 모두 통과했습니다. 이번 두 실험에서는 상세 명세를 받은 단일 에이전트들은 체크리스트를 통과했고, 짧은 브리프에서는 검수와 수정을 거친 작품이 가장 높은 점수를 받았습니다. 다만 Agent Office는 두 실험 모두 다른 참가팀보다 낮은 평가를 받았습니다. 협업 여부만으로 결과를 설명하기는 어려우며, 검수 방식의 효과도 같은 조건에서 다시 비교할 필요가 있습니다.</p>`
       }
     ],
-    gaps: '심사자는 저 혼자였고 한 번만 평가했으며, 출발 시각도 팀마다 달랐습니다. 다음에는 같은 시각에 출발시키고 심사자를 둘 이상 둘 계획입니다. 손때는 아직 로컬에서만 열리고 레포도 공개 전입니다.',
+    gaps: '심사자는 저 혼자였고 한 번만 평가했으며, 출발 시각도 팀마다 달랐습니다. 다음에는 같은 시각에 출발시키고 심사자를 둘 이상 둘 계획입니다. 작품은 위 데모에서 열 수 있으며, 손때의 원본 레포는 아직 공개하지 않았습니다.',
     thumb: { src: 'media/human/cover_gen.jpg', alt: '콘셉트 조각들이 다섯 제작 방식을 거쳐 서로 다른 작품이 되는 장면(생성 이미지)' }
   });
 })();

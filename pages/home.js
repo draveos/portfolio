@@ -11,7 +11,7 @@ window.PAGES.home = {
     ctaHref: '#about',
     sceneLabel: '에이전트의 작업 분배와 검증, 수정 루프, 드론의 조립, Claude의 채색, Codex의 유체 그라디언트, Gemini의 2D 빛 심벌 모션입니다.'
   },
-  chaptersTitle: '세 분야의 프로젝트',
+  chaptersTitle: '분야별 프로젝트',
   chaptersEyebrow: '2026 / SELECTED WORK',
   chapters: [
     { n: '01', kind: 'exaone', topic: '모델', title: '모델 경량화', desc: '레이어 30개의 양자화 민감도를 측정하고, 일부 모듈을 8비트로 남겨 1.2B 모델을 경량화했습니다. 점수는 0.596에서 0.624로 올랐습니다.', en: 'MODEL OPTIMIZATION', lead: 'exaone', metric: '1.49 → 1.37', unit: 'GB / 모델 크기' },

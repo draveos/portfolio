@@ -107,7 +107,8 @@ function listRow(p) {
   return `<a class="note-row node-card" href="#note/${esc(p.id)}" data-kind="${esc(p.id)}" data-topic="${topicKey(p)}"><div class="node-card-media">${thumb(p)}<span class="badge badge-plain media-category">${esc(p.tag)}</span></div><div class="node-card-content"><span class="node-card-meta">${esc(p.date)}<span>${esc(categoryLabel(p))}${hasLink ? LINK_ICON : ''}</span></span><h3><span>${esc(p.title)}</span></h3><p class="clamp-2">${shows}</p></div><div class="node-card-footer"><span class="chip-row">${chips}</span><span class="node-open">열어보기 <b aria-hidden="true">↗</b></span></div></a>`;
 }
 function filters() {
-  return `<div class="tabs" aria-label="노트 주제">${['전체', '모델', '드론', '에이전트'].map(t => `<button class="filter" data-filter="${t}" aria-pressed="${t === selectedTopic}">${t}</button>`).join('')}</div>`;
+  const topics = ['전체', ...['모델', '드론', '에이전트'].filter(t => visibleNotes().some(p => categoryOf(p) === '프로젝트' && p.topic === t))];
+  return `<div class="tabs" aria-label="노트 주제">${topics.map(t => `<button class="filter" data-filter="${t}" aria-pressed="${t === selectedTopic}">${t}</button>`).join('')}</div>`;
 }
 function renderList(category) {
   const collection = visibleNotes().filter(p => (!category || categoryOf(p) === category) && (selectedTopic === '전체' || p.topic === selectedTopic));
@@ -117,6 +118,7 @@ function renderList(category) {
 }
 function list(category) {
   const label = category === '프로젝트' ? '프로젝트' : '비교 실험';
+  if (category !== '프로젝트' || !visibleNotes().some(p => categoryOf(p) === category && p.topic === selectedTopic)) selectedTopic = '전체';
   el.innerHTML = `<section class="intro"><div><span class="eyebrow">WORK INDEX</span><h1>${label}</h1><p>${category === '프로젝트' ? '구현 과정과 결과를 정리했습니다.' : '조건을 정하고 결과를 비교한 기록입니다.'}</p></div></section><section id="notes"><div class="section-label"><h2>전체 기록</h2>${category === '프로젝트' ? filters() : ''}</div><div class="note-list node-grid" id="notes-list"></div></section>`;
   renderList(category);
   document.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => { selectedTopic = b.dataset.filter; renderList(category); }));
@@ -125,6 +127,7 @@ function list(category) {
 /* ---------- 홈 ---------- */
 function home() {
   const H = window.PAGES.home || {}, hero = H.hero || {};
+  const chapterCount = (H.chapters || []).filter(c => visibleNotes().some(p => p.topic === c.topic)).length;
   const chapters = (H.chapters || []).map(c => {
     const notes = visibleNotes().filter(p => p.topic === c.topic);
     const lead = findNote(c.lead) && !findNote(c.lead).draft ? findNote(c.lead) : notes[0];
@@ -133,7 +136,7 @@ function home() {
     const href = lead ? `#note/${esc(lead.id)}` : '#projects';
     return `<article class="chapter" data-kind="${esc(c.kind)}" data-topic="${esc(c.topic)}"><div class="chapter-spine"><span>${esc(c.n)}</span><i></i></div><div class="chapter-main"><span class="eyebrow">${esc(c.en)}</span><h3><a href="${href}">${esc(c.title)} <span aria-hidden="true">↗</span></a></h3><p>${esc(c.desc)}</p><div class="chapter-links">${notes.map(p => `<a href="#note/${esc(p.id)}"><span>${esc(p.tag)}</span><span aria-hidden="true">↗</span></a>`).join('')}</div></div><a class="chapter-preview" href="${href}" aria-label="${esc(c.title)} 기록 열기"><div class="preview-art">${c.thumb ? `<img src="${esc(c.thumb.src)}" alt="${esc(c.thumb.alt || '')}" loading="lazy">` : lead ? thumb(lead) : ''}</div><div class="preview-caption"><strong>${esc(metric)}</strong><span>${esc(c.unit)}</span></div></a></article>`;
   }).join('');
-  el.innerHTML = `<section class="assembly-hero"><div class="hero-copy"><p class="eyebrow">${esc(hero.eyebrow || '')}</p><h1>${hero.title || ''}</h1><p class="hero-description">${hero.description || ''}</p><a href="${esc(hero.ctaHref || '#about')}" class="intro-link">${esc(hero.ctaLabel || 'About me')} <span aria-hidden="true">↗</span></a></div><div class="assembly-stage"><div id="hero-scene" role="img" aria-label="${esc(hero.sceneLabel || '')}"><div class="scene-fallback"><span>◇</span></div></div><div class="assembly-caption"><span id="assembly-label">AGENT ARCHITECTURE</span><span id="assembly-state" hidden aria-hidden="true"></span></div><div class="assembly-select" aria-label="조립할 구조 선택"><button data-assembly="0" aria-pressed="true" aria-label="에이전트 아키텍처">Architecture</button><button data-assembly="1" aria-pressed="false" aria-label="드론 조립">Drone</button><button data-assembly="2" aria-pressed="false" aria-label="Claude 채색 모션">Claude</button><button data-assembly="3" aria-pressed="false" aria-label="Codex 유체 모션">Codex</button><button data-assembly="4" aria-pressed="false" aria-label="Gemini 2D 모션">Gemini</button></div></div></section><section id="notes" class="chapters"><div class="chapter-index-heading"><h2>${esc(H.chaptersTitle || '')}</h2><span>${esc(H.chaptersEyebrow || '')}</span></div>${chapters}</section>`;
+  el.innerHTML = `<section class="assembly-hero"><div class="hero-copy"><p class="eyebrow">${esc(hero.eyebrow || '')}</p><h1>${hero.title || ''}</h1><p class="hero-description">${hero.description || ''}</p><a href="${esc(hero.ctaHref || '#about')}" class="intro-link">${esc(hero.ctaLabel || 'About me')} <span aria-hidden="true">↗</span></a></div><div class="assembly-stage"><div id="hero-scene" role="img" aria-label="${esc(hero.sceneLabel || '')}"><div class="scene-fallback"><span>◇</span></div></div><div class="assembly-caption"><span id="assembly-label">AGENT ARCHITECTURE</span><span id="assembly-state" hidden aria-hidden="true"></span></div><div class="assembly-select" aria-label="조립할 구조 선택"><button data-assembly="0" aria-pressed="true" aria-label="에이전트 아키텍처">Architecture</button><button data-assembly="1" aria-pressed="false" aria-label="드론 조립">Drone</button><button data-assembly="2" aria-pressed="false" aria-label="Claude 채색 모션">Claude</button><button data-assembly="3" aria-pressed="false" aria-label="Codex 유체 모션">Codex</button><button data-assembly="4" aria-pressed="false" aria-label="Gemini 2D 모션">Gemini</button></div></div></section><section id="notes" class="chapters" style="--chapter-columns:${Math.max(1, chapterCount)}"><div class="chapter-index-heading"><h2>${esc(H.chaptersTitle || '')}</h2><span>${esc(H.chaptersEyebrow || '')}</span></div>${chapters}</section>`;
   if (pendingChapter) { const topic = pendingChapter; pendingChapter = null; requestAnimationFrame(() => document.querySelector(`.chapter[data-topic="${topic}"]`)?.scrollIntoView({ block: 'start' })); }
 }
 
