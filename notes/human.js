@@ -43,7 +43,7 @@
       },
       {
         id: 'result', title: '결과',
-        html: `<table><thead><tr><th>출품작</th><th>제작 방식</th><th>사용자 점수</th><th>Claude 세션 평가(참고)</th></tr></thead><tbody><tr><td>손때</td><td>Claude 단독 2 (서브에이전트 사용)</td><td>8.5</td><td>8.7</td></tr><tr><td>A life not yet lived</td><td>Codex CLI 단독</td><td>8.4</td><td>8.3</td></tr><tr><td>한 번뿐인 실행</td><td>Claude 단독</td><td>8.1</td><td>자기 출품작, 제외</td></tr><tr><td>말로만 본 창밖</td><td>Agent Office 디자인팀</td><td>7.6</td><td>7.4</td></tr><tr><td>Echoes of Sentience</td><td>Gemini 웹</td><td>논외</td><td>보류</td></tr></tbody></table><p>참고 점수는 참가작을 만든 Claude 단독 세션이 다른 팀을 평가한 값입니다. 여러 팀의 상호 평가를 합산한 점수는 아닙니다.</p><p>Gemini는 당시 심사에서 소개와 크레딧 미제출로 분류돼 점수에서 제외됐습니다.</p>${comparison(['vfx_sontae_touch.jpg', 'vfx_codex.jpg', 'vfx_claude_tree.jpg', 'vfx_office.png'], ['Claude 단독 2 (손때)', 'Codex', 'Claude 단독', 'Agent Office'])}`
+        html: `<table><thead><tr><th>출품작</th><th>제작 방식</th><th>사용자 점수</th><th>Claude 세션 평가(참고)</th></tr></thead><tbody><tr><td>손때</td><td>Claude 단독 2 (서브에이전트 사용)</td><td>8.5</td><td>8.7</td></tr><tr><td>A life not yet lived</td><td>Codex CLI 단독</td><td>8.4</td><td>8.3</td></tr><tr><td>한 번뿐인 실행</td><td>Claude 단독</td><td>8.1</td><td>자기 출품작, 제외</td></tr><tr><td>말로만 본 창밖</td><td>Agent Office 디자인팀</td><td>7.6</td><td>7.4</td></tr><tr><td>Echoes of Sentience</td><td>Gemini 웹</td><td>논외</td><td>보류</td></tr></tbody></table><p>참고 점수는 참가작을 만든 Claude 단독 세션이 다른 팀을 평가한 값입니다. 여러 팀의 상호 평가를 합산한 점수는 아닙니다.</p><p>Gemini는 당시 심사에서 소개와 크레딧 미제출로 분류돼 점수에서 제외됐습니다.</p>${comparison(['vfx_sontae_touch.jpg', 'vfx_codex.jpg', 'vfx_claude_tree.jpg', 'vfx_office.png'], ['Claude 단독 2', 'Codex', 'Claude 단독', 'Agent Office'])}`
       },
       {
         id: 'open', title: '직접 열어 보기',
