@@ -142,7 +142,7 @@ dialog[open]::backdrop{animation:backdrop-in .16s linear both}
 .project-body.no-toc{grid-template-columns:minmax(0,760px)}
 .body-toc{position:sticky;top:96px;font-size:12px}
 .body-toc>strong{display:block;font-size:10px;letter-spacing:1px;font-weight:600;color:#8c96a7;margin-bottom:12px}
-.body-toc a{display:flex;justify-content:space-between;gap:10px;padding:7px 0 7px 14px;border-left:1px solid #dde4ef;color:#7a879b;transition:color .12s,border-color .12s}
+.body-toc a{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0 7px 14px;border-left:1px solid #dde4ef;color:#7a879b;transition:color .12s,border-color .12s}
 .body-toc a.is-current{color:#335cba;border-left-color:#335cba;font-weight:600}
 .body-toc a small{font:10px Menlo,monospace;color:#a7b0bf;white-space:nowrap}
 .project-page .article-body{min-width:0}
@@ -373,9 +373,10 @@ html.motion-paused .nav-ink [pathLength]{transition:none}
   .site-footer{max-width:none;width:100%;padding-left:32px;padding-right:32px}
 }
 @media(min-width:1121px){
-  .project-body{grid-template-columns:180px minmax(0,960px);gap:32px}
-  .project-body.no-toc{grid-template-columns:minmax(0,960px)}
-  .project-body .article-body>details>.section-inner>p{max-width:75ch}
+  .project-body{max-width:1002px;grid-template-columns:180px minmax(0,790px);gap:32px;margin-inline:auto}
+  .project-body.no-toc{max-width:790px;grid-template-columns:minmax(0,790px)}
+  .project-page .article-body{max-width:790px}
+  .project-page .evidence-row,.project-page .article-related{margin-left:30px}
 }
 
 /* Home thumbnails retain their full 1920×1080 composition at every card width. */
@@ -426,4 +427,19 @@ html.motion-paused .nav-ink [pathLength]{transition:none}
   .sidebar-recent ol{display:flex;flex-wrap:wrap;gap:6px}
   .sidebar-recent a{margin:0;padding:5px 10px;border:1px solid #e6eaf1;border-radius:20px;font-size:10px;background:#fff}
   .sidebar-recent a small{display:none}
+}
+
+/* Shared reading column: prose, figures and tables follow one left edge.
+   Desktop reserves 30px for the section chevron; narrow screens remove that inset.
+   Figure dialogs keep their independent enlarged layout. */
+.project-page .article-body{width:100%}
+.project-page .section-inner>p{max-width:none}
+.project-page .article-body .article-figure{width:100%;max-width:760px;margin-inline:0;padding:22px}
+.project-page .article-body .compare-grid{width:100%;max-width:760px}
+@media(max-width:1120px){
+  .project-body{max-width:760px;width:100%;margin-inline:auto}
+  .project-page .article-body{max-width:760px}
+}
+@media(max-width:720px){
+  .project-page .article-body .article-figure{padding:14px}
 }
