@@ -50,6 +50,52 @@
     return s + K.close();
   }
 
+
+  /* 수집 절용 3칸 개념도: 지형과 카메라 → 트랙과 판정 → 프레임과 좌표. */
+  function collectDrawing() {
+    const W = 640, H = 296, py = 76, gw = 108;
+    const panels = [[60, '1', '지형과 카메라'], [266, '2', '트랙과 판정'], [472, '3', '프레임과 좌표']];
+    const box = x => K.rect(x, py, gw, gw, { rx: 4, fill: C.band, cls: 'fg-bg' });
+    const p1 = x => {
+      const cx = x + gw / 2, gy = py + 78;
+      let g = `<path d="M${x + 8} ${gy}L${cx} ${gy - 28}L${x + gw - 8} ${gy}L${cx} ${gy + 28}Z" fill="#fff" stroke="#dfe3ea"/>`;
+      g += `<g fill="none" stroke="#dfe3ea"><path d="M${x + 24} ${gy - 9}L${cx + 16} ${gy + 19}M${x + 40} ${gy - 18}L${cx + 32} ${gy + 10}M${x + gw - 24} ${gy - 9}L${cx - 16} ${gy + 19}M${x + gw - 40} ${gy - 18}L${cx - 32} ${gy + 10}"/></g>`;
+      g += `<path d="M${cx - 18} ${gy}L${cx} ${gy - 10}L${cx + 18} ${gy}L${cx} ${gy + 10}Z" fill="${C.accentTint}" stroke="${C.accent}" stroke-width="1.5"/>`;
+      g += K.path(`M${cx} ${py + 30}L${cx - 18} ${gy}M${cx} ${py + 30}L${cx + 18} ${gy}`, { stroke: C.accent, dash: '3 3', sw: 1.2 });
+      g += `<g stroke="${C.blue}" stroke-width="2.5" fill="none" stroke-linecap="round"><path d="M${cx - 16} ${py + 18}h-10M${cx + 16} ${py + 18}h10"/><ellipse cx="${cx - 21}" cy="${py + 18}" rx="9" ry="3"/><ellipse cx="${cx + 21}" cy="${py + 18}" rx="9" ry="3"/></g>`;
+      g += K.rect(cx - 9, py + 15, 18, 10, { rx: 3, fill: C.blue }) + K.circle(cx, py + 28, 3, { fill: C.accent });
+      return g;
+    };
+    const p2 = x => {
+      let g = '';
+      for (let i = 1; i < 4; i++) g += K.line(x + i * 27, py, x + i * 27, py + gw, { stroke: '#e6e9ef' }) + K.line(x, py + i * 27, x + gw, py + i * 27, { stroke: '#e6e9ef' });
+      g += K.path(`M${x + 16} ${py + 92}Q${x + 30} ${py + 48} ${x + 52} ${py + 62}`, { stroke: C.blue, sw: 2.5 });
+      g += K.path(`M${x + 52} ${py + 62}Q${x + 72} ${py + 76} ${x + 80} ${py + 48}`, { stroke: C.accent, sw: 2.5 });
+      g += K.path(`M${x + 80} ${py + 48}Q${x + 86} ${py + 28} ${x + 96} ${py + 18}`, { stroke: C.red, sw: 2.5 });
+      [[16, 92], [52, 62], [80, 48], [96, 18]].forEach(([a, b]) => { g += K.circle(x + a, py + b, 4.5, { fill: C.blue, stroke: '#fff', sw: 1.5 }); });
+      return g;
+    };
+    const p3 = x => {
+      let g = '';
+      [12, 6, 0].forEach(o => { g += K.rect(x + 12 + o, py + 18 + o, 52, 38, { rx: 3, fill: o ? C.tint2 : '#fff', stroke: C.box }); });
+      g += K.circle(x + 20, py + 26, 2.5, { fill: C.accent }) + K.path(`M${x + 20} ${py + 44}h30`, { stroke: C.tint2, sw: 3 }) + K.path(`M${x + 20} ${py + 50}h20`, { stroke: C.tint2, sw: 3 });
+      g += K.path(`M${x + 70} ${py + 50}H${x + 78}`, { marker: 'drone-collect' });
+      g += K.rect(x + 82, py + 22, 20, 26, { rx: 2, fill: '#fff', stroke: C.box }) + `<g stroke="${C.gray}" stroke-width="1.5"><path d="M${x + 86} ${py + 29}h12M${x + 86} ${py + 35}h12M${x + 86} ${py + 41}h12"/></g>`;
+      g += K.rect(x + 82, py + 58, 20, 26, { rx: 2, fill: C.tint, stroke: C.box }) + `<g fill="${C.accent}">${[[84, 60], [98, 60], [84, 80], [98, 80]].map(([a, b]) => `<rect x="${x + a}" y="${py + b}" width="4" height="4"/>`).join('')}</g>`;
+      g += K.text(x + 92, py + 100, 'CSV / GeoTIFF', { size: 9, fill: C.muted, a: 'middle' });
+      return g;
+    };
+    let s = K.open(W, H, { label: '지형과 카메라, 트랙과 판정, 프레임과 좌표 세 단계 수집 개념도', marker: 'drone-collect' });
+    panels.forEach(([x], i) => { s += box(x) + [p1, p2, p3][i](x); });
+    const labels = (size, br) => panels.map(([x, n, t]) => { const cx = x + gw / 2, y = py + gw + 28, w = K.tw(t, size) + br * 2 + 8, lx = cx - w / 2; return K.circle(lx + br, y - size * .35, br, { fill: C.tint }) + K.text(lx + br, y - size * .35 + br * .38, n, { size: Math.round(br * 1.1), w: 700, fill: C.blue, a: 'middle', cls: 'fg-n' }) + K.text(lx + br * 2 + 8, y, t, { size, w: 700 }); }).join('');
+    s += '<g class="fg-w">' + K.head('프레임과 좌표를 함께 남기는 수집 과정', '타일 지형 위에서 카메라 범위를 정하고, 판정을 거친 트랙으로 날며 프레임마다 위치 정보를 기록합니다') + labels(14, 9);
+    s += K.legend(60, H - 24, [{ k: 'dash', color: C.accent, label: '카메라 시야와 촬영 범위' }, { k: 'dot', color: C.blue, label: '웨이포인트' }, { k: 'line', color: C.accent, label: '주의 구간' }, { k: 'line', color: C.red, label: '불가 구간' }, { k: 'sq', color: C.tint2, label: '프레임' }]);
+    s += '</g><g class="fg-m">' + K.text(22, 38, '프레임과 좌표를 함께 남기는 수집 과정', { size: 22, w: 700 }) + labels(18, 11);
+    s += K.legend(60, H - 22, [{ k: 'dot', color: C.blue, label: '웨이포인트' }, { k: 'line', color: C.red, label: '불가 구간' }, { k: 'sq', color: C.tint2, label: '프레임' }], { size: 17, gap: 22 });
+    s += '</g>';
+    return s + K.close();
+  }
+
   // 외부 데모 링크 없음(2026-10-14).
 
   window.NOTES.push({
@@ -78,7 +124,7 @@
     ],
     sections: [
       { id: 'role', title: '담당 업무와 진행 과정', html: `<p>인턴 기간에 "Isaac Sim을 활용한 드론 자율주행 시뮬레이션 구현 및 학습용 데이터 수집"을 맡았습니다. Isaac Sim, Pegasus Simulator, ROS 2, Cesium 을 활용하여 진행했습니다.</p><p>처음에는 실내에서 장애물을 피하며 비행하는 기본 구조를 구현했습니다. 주변 관측 결과를 복셀 지도에 반영하고, 경로를 계획해 이동한 뒤 다시 관측하도록 연결했습니다. 복셀은 공간을 작은 입방체 단위로 나눈 격자입니다.</p><p>이후 회사의 우선순위에 따라 학습용 데이터 수집 업무를 맡았습니다. 웹 UI에서 수집 작업을 관리하는 파이프라인을 개발하고 운영했으며, 운영 방법을 문서로 정리해 후임에게 인계했습니다.</p>${fig(conceptDrawing(), '그때 생각했던 3D 에서의 회피 구현 과정', 'background:#edf4f0')}` },
-      { id: 'collect', title: '학습용 데이터 수집은 어떻게 했나', html: `<p>데이터 수집은 지형을 불러오고, 기체에 카메라를 달고, 정한 경로로 날면서 프레임과 위치 정보를 함께 남기는 세 단계였습니다.</p><h3>지형 불러오기</h3><p>Isaac Sim 에 Cesium for Omniverse 확장을 켜고 Cesium ion 계정을 연결한 뒤, Photorealistic 3D Tiles 를 스테이지에 올렸습니다. 타일은 화면 공간 오차(Maximum Screen Space Error) 같은 로딩 설정으로 화질과 속도를 맞췄습니다. 기체는 Pegasus Simulator 의 쿼드콥터를 지리 좌표 위에 배치했습니다. 고도는 해발고도와 타원체고의 기준이 다르면 수 미터에서 십수 미터가 어긋나기 때문에, 지형 고도 자료(DEM)에 지오이드고를 더해 타일과 같은 기준으로 맞췄습니다.</p><h3>카메라 설정</h3><p>기체에 카메라를 붙여 수직 아래(nadir)를 보거나 짐벌 각도를 준 상태로 촬영했습니다. 해상도와 초점거리, 프레임 속도를 설정값으로 두었습니다. 정지 촬영은 지면 해상도(GSD)를 고정하고 초점거리를 고도에 맞춰 자동 계산하는 방식이고, 비행 촬영은 반대로 초점거리를 고정하고 GSD 가 고도에 따라 변하는 방식입니다. 정지 촬영의 범위는 해상도에 GSD 를 곱해 계산합니다. 예를 들어 0.25 m/px 에 512 px 이면 한 변이 128 m 입니다.</p><h3>비행과 수집</h3><p>웹 UI 의 곡선 에디터에서 웨이포인트를 찍어 트랙을 만들고, 지면 높이와 비행 고도, 속도, 프레임 속도, 시간대와 날씨를 정했습니다. 비행 전에는 실제 비행과 같은 식으로 궤적을 계산해 수평 가속의 p99 와 수직 속도를 기준으로, 곡률을 참고선으로 두고 안전, 주의, 불가를 판정했고 총 거리와 예상 시간, 프레임 수를 미리 보여 줬습니다. 고도 변화를 짧은 구간에 몰면 수직 속도가 넘어가기 때문에 긴 구간에 나눠 배분하도록 안내했습니다. 비행 중에는 프레임마다 카메라 자세를 기록했고, Cesium 타일에는 물리 충돌이 없어 광선 검사로 지면을 찾을 수 없었기 때문에 카메라 자세와 지형 고도 자료로 각 프레임의 지면 좌표를 계산했습니다. 이 계산은 평지를 가정한 것이라 산등성이가 시야를 가리는 경우까지 반영하지는 못했고, 카메라 기울기가 큰 프레임은 상단 일부를 무효로 표시하거나 좌표를 내지 않도록 했습니다.</p><h3>산출물과 검증</h3><p>한 번의 비행에서 프레임 이미지와 톤 보정본, 비행 영상, 프레임별 좌표와 자세, 촬영 범위를 담은 CSV 가 나옵니다. 수직으로 내려다본 프레임은 좌표가 내장된 GeoTIFF 로도 저장했고, 기울어진 촬영은 정사영 전제가 성립하지 않아 GeoTIFF 대신 네 모서리 좌표와 촬영 정보를 CSV 에 기록했습니다. 수집이 끝나면 검은 프레임이 없는지, 기록된 좌표가 의도한 트랙 위에 있는지, 영상이 정상인지 확인하는 검증 비행을 거쳤습니다.</p>` },
+      { id: 'collect', title: '학습용 데이터 수집은 어떻게 했나', html: `<p>데이터 수집은 지형을 불러오고, 기체에 카메라를 달고, 정한 경로로 날면서 프레임과 위치 정보를 함께 남기는 세 단계였습니다.</p>${fig(collectDrawing(), '지형 타일 위에서 카메라 범위를 정하고, 판정을 거친 트랙으로 날며 프레임마다 좌표를 남기는 수집 과정 개념도', 'background:#eef3f8')}<h3>지형 불러오기</h3><p>Isaac Sim 에 Cesium for Omniverse 확장을 켜고 Cesium ion 계정을 연결한 뒤, Photorealistic 3D Tiles 를 스테이지에 올렸습니다. 타일은 화면 공간 오차(Maximum Screen Space Error) 같은 로딩 설정으로 화질과 속도를 맞췄습니다. 기체는 Pegasus Simulator 의 쿼드콥터를 지리 좌표 위에 배치했습니다. 고도는 해발고도와 타원체고의 기준이 다르면 수 미터에서 십수 미터가 어긋나기 때문에, 지형 고도 자료(DEM)에 지오이드고를 더해 타일과 같은 기준으로 맞췄습니다.</p><h3>카메라 설정</h3><p>기체에 카메라를 붙여 수직 아래(nadir)를 보거나 짐벌 각도를 준 상태로 촬영했습니다. 해상도와 초점거리, 프레임 속도를 설정값으로 두었습니다. 정지 촬영은 지면 해상도(GSD)를 고정하고 초점거리를 고도에 맞춰 자동 계산하는 방식이고, 비행 촬영은 반대로 초점거리를 고정하고 GSD 가 고도에 따라 변하는 방식입니다. 정지 촬영의 범위는 해상도에 GSD 를 곱해 계산합니다. 예를 들어 0.25 m/px 에 512 px 이면 한 변이 128 m 입니다.</p><h3>비행과 수집</h3><p>웹 UI 의 곡선 에디터에서 웨이포인트를 찍어 트랙을 만들고, 지면 높이와 비행 고도, 속도, 프레임 속도, 시간대와 날씨를 정했습니다. 비행 전에는 실제 비행과 같은 식으로 궤적을 계산해 수평 가속의 p99 와 수직 속도를 기준으로, 곡률을 참고선으로 두고 안전, 주의, 불가를 판정했고 총 거리와 예상 시간, 프레임 수를 미리 보여 줬습니다. 고도 변화를 짧은 구간에 몰면 수직 속도가 넘어가기 때문에 긴 구간에 나눠 배분하도록 안내했습니다. 비행 중에는 프레임마다 카메라 자세를 기록했고, Cesium 타일에는 물리 충돌이 없어 광선 검사로 지면을 찾을 수 없었기 때문에 카메라 자세와 지형 고도 자료로 각 프레임의 지면 좌표를 계산했습니다. 이 계산은 평지를 가정한 것이라 산등성이가 시야를 가리는 경우까지 반영하지는 못했고, 카메라 기울기가 큰 프레임은 상단 일부를 무효로 표시하거나 좌표를 내지 않도록 했습니다.</p><h3>산출물과 검증</h3><p>한 번의 비행에서 프레임 이미지와 톤 보정본, 비행 영상, 프레임별 좌표와 자세, 촬영 범위를 담은 CSV 가 나옵니다. 수직으로 내려다본 프레임은 좌표가 내장된 GeoTIFF 로도 저장했고, 기울어진 촬영은 정사영 전제가 성립하지 않아 GeoTIFF 대신 네 모서리 좌표와 촬영 정보를 CSV 에 기록했습니다. 수집이 끝나면 검은 프레임이 없는지, 기록된 좌표가 의도한 트랙 위에 있는지, 영상이 정상인지 확인하는 검증 비행을 거쳤습니다.</p>` },
       { id: 'problems', title: '실행 중 생긴 문제와 대응', html: `<h3>관측이 누적되면서 지도가 포화된 문제</h3><p>관측이 누적되면서 지도의 대부분이 장애물이 있는 칸으로 표시돼 경로를 찾지 못했습니다. 오래된 관측의 점유 확률을 서서히 낮추는 감쇠를 적용해 문제를 일부 완화했습니다. 다만 안정적으로 동작하는 조건이 제한적이어서, 당시 구현의 한계와 실험 조건을 문서에 남겼습니다.</p><h3>글로만 주고받은 시각 기준</h3><p>시각적인 요소를 글로만 주고받다 보니 기준이 어긋난 적이 있었습니다. 이를 줄이려고 작은 샘플을 먼저 만들어 보여 주고, 결과를 같이 보며 조건을 맞추는 방식으로 바꿨습니다.</p><h3>화면에 보이는 건물과 물리 충돌의 차이</h3><p>Cesium 타일은 Fabric Scene Delegate 로 그려지는데, Isaac Sim 에서는 이 경로와 PhysX 물리를 동시에 켤 수 없어 건물이 보이기만 하고 충돌하지 않았습니다. 재현 영상을 만들고 <a href="https://forums.developer.nvidia.com/t/cesium-and-isaac-sim-4-1-0/305110/4" target="_blank" rel="noreferrer">NVIDIA 포럼의 공식 답변</a>과 같은 한계를 겪은 공개 사례를 찾아 정리한 뒤, 사실적 렌더링과 물리 기반 회피를 별도 파이프라인으로 분리했습니다. 대안으로는 특정 영역의 타일을 정적 메시로 변환해 물리를 입히는 방법을 검토했습니다.</p>` },
       { id: 'handoff', title: '인수인계 과정', html: `<p>후임이 환경 설정부터 운영까지 따라갈 수 있도록 단일 HTML 매뉴얼을 만들었습니다. 외부 의존성 없이 열 수 있으며, 가이드 7장과 참고 자료 5편, 36단계 체크리스트를 포함했습니다. 이 문서를 바탕으로 5일 온보딩 과정을 설계하고 진행했습니다.</p><table><thead><tr><th>일차</th><th>교육 및 실습 내용</th></tr></thead><tbody><tr><td>1일차</td><td>전체 구조와 주요 파일을 소개하고, Isaac Sim과 Script Editor, Cesium, Pegasus의 역할을 설명했습니다. 스트리밍 클라이언트 설치, VS Code 연동, 컨테이너 접속과 포트 포워딩을 진행한 뒤 Isaac Sim과 UI를 실행했습니다.</td></tr><tr><td>2일차</td><td>트랙을 직접 만들며 UI와 Isaac Sim 사용법을 익히도록 했습니다. 이후 실습 과제를 부여하고, 지형 고도와 좌표 기준(DEM, EGM96, WGS84), 짐벌 등 관련 용어를 설명했습니다.</td></tr><tr><td>3~4일차</td><td>개별 과제를 수행했습니다.</td></tr><tr><td>5일차</td><td>과제를 수행하고 검증용 테스트를 진행했습니다.</td></tr></tbody></table><p>교육과 과제 수행을 마친 뒤 인수인계를 마무리했습니다.</p>` },
     ],
