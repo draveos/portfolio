@@ -191,7 +191,7 @@
     mobile+=K.text(260,348,'촬영 이미지와 영상, 프레임별 위치 정보',{size:21,fill:C.muted,a:'middle'});
     mobile+=K.path('M260 373V406',{marker:id,sw:2});
     mobile+=K.text(32,450,'검증 비행에서 확인',{size:24,w:600});
-    const checks=[['검은 프레임이 없는지'],['기록한 좌표가','의도한 트랙을 따르는지'],['영상이 끊김 없이','재생되는지']];
+    const checks=[['기록한 좌표가','의도한 트랙을 따르는지'],['영상이 끊김 없이','재생되는지'],['검은 프레임이 없는지']];
     const check=(x,y)=>K.circle(x,y,10,{fill:C.tint,stroke:C.blue,sw:1.4})+K.path(`M${x-4} ${y}l3 3 6-7`,{stroke:C.blue,sw:1.8});
     checks.forEach((lines,i)=>{
       const y=177+i*72,my=497+i*76;
