@@ -4,30 +4,31 @@
 (function () {
   /* 운영 루프 그림. 상자 8개, 화살표 라벨은 dossier 2.3 의 짧은 판. 상자 안은 제목 한 줄, 설명은 상자 밖(고리 바깥쪽). */
   function flowSvg() {
-    const K = window.FIGKIT, C = K.C, W = 226, H = 90, MK = 'office-loop';
-    const boxes = [
-      { n: '01', t: '프롬프트', s: '사용자 요청 또는 야간 자동 과제', x: 40, y: 120 },
-      { n: '02', t: '분류', s: '난이도와 워크플로, 참석자', x: 338, y: 120 },
-      { n: '03', t: '회의 5단계', s: '시작, 라운드, 검토, 정리, 마침', x: 636, y: 120, tint: true },
-      { n: '04', t: '하네스 검증', s: 'Node.js 검증 스크립트 실행', x: 934, y: 120, tint: true },
-      { n: '05', t: '기억 적재', s: '기억 40,760개와 임베딩', x: 934, y: 392 },
-      { n: '06', t: '사람 평점', s: 'approve, revise, reject와 메모', x: 636, y: 392 },
-      { n: '07', t: '회고와 개선', s: '기법별 개선 사항 정리', x: 338, y: 392 },
-      { n: '08', t: '다음 회의', s: '개선 사항을 프롬프트에 반영', x: 40, y: 392 }
+    const K = window.FIGKIT, C = K.C, MK = 'office-loop', w = 214, h = 88;
+    /* 2026-10-16: PDF 판 배치. 화살표 라벨은 선 위가 아니라 전용 여백에 둔다. */
+    const nodes = [
+      ['01', '요청 입력', ['사용자 요청 또는', '야간 자동 과제'], 36, 134],
+      ['02', '작업 분류', ['난이도, 진행 방식,', '참석자 결정'], 340, 134],
+      ['03', '회의 진행', ['시작, 라운드, 검토,', '정리, 마침'], 644, 134, true],
+      ['04', '산출물 검증', ['Node.js 검증', '스크립트 실행'], 948, 134, true],
+      ['05', '기억 저장', ['기억 40,760개와', '임베딩 저장'], 948, 408],
+      ['06', '사용자 평가', ['승인, 수정, 반려와', '평가 메모'], 644, 408],
+      ['07', '회고와 개선', ['작업 방식별', '개선 사항 정리'], 340, 408],
+      ['08', '다음 회의', ['개선 사항을', '다음 요청에 반영'], 36, 408]
     ];
-    let s = K.open(1200, 600, { label: 'Agent Office 운영 루프. 프롬프트, 분류, 회의 5단계, 하네스 검증, 기억 적재, 사람 평점, 회고와 개선, 다음 회의가 고리로 이어집니다', title: 'Agent Office 운영 루프', marker: MK, rx: 20 });
-    s += '<g class="fg-w">' + K.head('Agent Office 운영 루프', '요청, 회의, 검증, 평가를 연결한 운영 흐름. 강조한 두 단계에서 문제 3개를 발견했습니다', { size: 22, subSize: 15, x: 40, y: 48, gap: 26 });
-    boxes.forEach(b => { s += K.node(b.x, b.y, W, H, { n: b.n, t: b.t, hl: b.tint, size: 20, br: 13 }); s += K.text(b.x + W / 2, b.y < 300 ? b.y - 14 : b.y + H + 24, b.s, { size: 15, fill: C.muted, a: 'middle' }); });
-    const E = (d, label, lx, ly, dashed, mid) => K.path(d, { marker: MK, sw: 1.5, dash: dashed ? '6 5' : undefined }) + (label ? K.pill(lx, ly, label, { size: 13.5, w: 500, color: C.muted, a: mid ? 'middle' : undefined }) : '');
-    const mid = (b1, b2) => (b1.x + W + b2.x) / 2;
-    const [b1, b2, b3, b4, b5, b6, b7, b8] = boxes, cy1 = b1.y + H / 2, cy2 = b5.y + H / 2;
-    s += E(`M${b1.x + W} ${cy1}H${b2.x - 2}`, '큐 적재', mid(b1, b2), cy1 + 8, false, true) + E(`M${b2.x + W} ${cy1}H${b3.x - 2}`, '단계표', mid(b2, b3), cy1 + 8, false, true) + E(`M${b3.x + W} ${cy1}H${b4.x - 2}`, '산출물', mid(b3, b4), cy1 + 8, false, true);
-    s += E(`M${b4.x + W / 2} ${b4.y + H}V${b5.y - 2}`, '회의 종료', b4.x + W / 2 + 10, 256) + E(`M${b3.x + W / 2} ${b3.y + H}V${b6.y - 2}`, '등급과 촬영본', b3.x + W / 2 + 10, 256);
-    s += E(`M${b6.x} ${cy2}H${b7.x + W + 2}`, '하루치 평점', mid(b7, b6), cy2 + 8, false, true) + E(`M${b7.x} ${cy2}H${b8.x + W + 2}`, '개선 반영', mid(b8, b7), cy2 + 8, false, true);
-    s += E(`M${b8.x + W / 2} ${b8.y}V${b1.y + H + 2}`, '2회차', b8.x + W / 2 + 10, 256);
-    s += K.path(`M${b5.x + W} ${cy2 + 14}H1182V548H${600 + 150}`, { sw: 1.5, dash: '6 5' }) + E(`M${600 - 150} 548H18V${cy2 + 14}H${b8.x - 2}`, '회상: 기억에서 관련 내용을 다음 회의로', 600 - 128, 548, true);
+    let s = K.open(1200, 660, { label: 'Agent Office 운영 루프. 요청 입력, 작업 분류, 회의 진행, 산출물 검증, 기억 저장, 사용자 평가, 회고와 개선, 다음 회의가 고리로 이어집니다', title: 'Agent Office 운영 루프', marker: MK, rx: 20 });
+    s += '<g class="fg-w">' + K.head('요청을 처리하고 다음 작업에 반영하는 과정', '회의와 검증을 분리하고, 사용자의 평가를 다음 회의에 반영합니다.', { x: 36, y: 42, size: 23, subSize: 16, gap: 28 });
+    const arrow = d => K.path(d, { marker: MK, sw: 1.8 });
+    for (let i = 0; i < 3; i++) { const a = nodes[i], b = nodes[i + 1], cy = a[4] + h / 2; s += arrow(`M${a[3] + w + 3} ${cy}H${b[3] - 5}`) + K.text((a[3] + w + b[3]) / 2, cy - 15, ['요청 대기열', '진행 순서', '산출물'][i], { size: 14, fill: C.muted, a: 'middle' }); }
+    s += arrow('M1055 225V401') + K.text(1071, 304, '회의 종료 후', { size: 15, fill: C.muted });
+    s += arrow('M997 225V289Q997 309 977 309H771Q751 309 751 329V401') + K.text(864, 292, '검증 등급과 화면 캡처', { size: 15, fill: C.muted, a: 'middle' });
+    s += arrow('M641 452H559') + K.text(600, 436, '하루 평가', { size: 14, fill: C.muted, a: 'middle' });
+    s += arrow('M337 452H255') + K.text(296, 436, '개선 반영', { size: 14, fill: C.muted, a: 'middle' });
+    s += arrow('M143 405V228') + K.text(160, 311, '다음 회차', { size: 15, fill: C.muted });
+    s += K.path('M1167 452H1180V606H18V452H31', { marker: MK, sw: 1.6, dash: '7 6' }) + K.rect(378, 589, 454, 32, { fill: '#fff', rx: 0 }) + K.text(605, 611, '저장한 기억 중 관련 내용을 다음 회의에서 검색', { size: 15, fill: C.muted, a: 'middle' });
+    for (const [n, t, sub, x, y, hl] of nodes) { s += K.node(x, y, w, h, { n, t, hl: !!hl, size: 22, br: 13 }); sub.forEach((line, i) => { s += K.text(x + w / 2, (y < 300 ? y - 35 : y + h + 27) + i * 22, line, { size: 16, fill: C.muted, a: 'middle' }); }); }
     s += '</g>';
-    s += K.snake(boxes.map(b => ({ n: b.n, t: b.t, hl: b.tint })), { title: 'Agent Office 운영 루프', loop: true, marker: MK });
+    s += K.snake(nodes.map(([n, t, , , , hl]) => ({ n, t, hl: !!hl })), { title: 'Agent Office 운영 루프', loop: true, marker: MK });
     return s + K.close();
   }
 
